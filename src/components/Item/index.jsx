@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 export default class Item extends Component {
+
+    // 是否勾選的回調函數
+    handleCheck = (id) => {
+        return ( event ) => {
+            this.props.updateTodo( id, event.target.checked )
+        }
+    }
+
     render() {
         const { id, name, done } = this.props;
         return (
@@ -8,7 +16,8 @@ export default class Item extends Component {
                 <li className="input-group">
                     <input type="checkbox" id={ id }
                     className="form-check m-4"
-                    defaultChecked={ done }/>
+                    checked={ done }
+                    onChange={ this.handleCheck( id ) } />
                     <label htmlFor={ id } className="flex-fill py-4">
                         { done ? <del>{ name }</del> : name }
                     </label>

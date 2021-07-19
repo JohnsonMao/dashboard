@@ -18,16 +18,39 @@ export default class App extends Component {
         {id: '007', name: '約 ada 禮拜四吃晚餐', done: false},
     ]}
 
+    // addTodo 用來添加 todo，接收的參數是 todo 物件
+    addTodo = ( todoObj ) => {
+        // 獲取原 todos
+        const { todos } = this.state;
+        // 新增一個 todos
+        const newTodos = [todoObj,...todos];
+        // 更新狀態
+        this.setState({todos: newTodos});
+    }
+
+    // updateTodo 用來更新一個 todo 物件
+    updateTodo = ( id, done ) => {
+        // 獲取狀態中的 todos
+        const { todos } = this.state;
+        // 匹配數據處理
+        const newTodos = todos.map( todoObj => {
+            if( todoObj.id === id ) return {...todoObj, done}
+            else return todoObj
+        })
+        // 更新狀態
+        this.setState({todos: newTodos});
+    }
+
     render() {
         const { todos } = this.state;
         return (
             <div className="container">
                 <h1 className="h1 py-4">TODOLIST</h1>
-                <Header />
+                <Header addTodo = { this.addTodo } />
                 
                 <div className="bg-white box-shadow rounded-1 overflow-hidden">
                     <Nav />
-                    <List todos = { todos } />
+                    <List todos = { todos } updateTodo = { this.updateTodo } />
                     <Footer />
                 </div>
             </div>

@@ -10,3 +10,15 @@
     2. 【子組件】給【父組件】傳遞數據: 通過 props 傳遞，要求父提前給子傳遞一個函數
 4. 注意 defaultChecked 和 checked 的區別，類似的還有: defaultValue 和 value
 5. state 在哪裡，操作 state 的方法就在哪裡
+
+## nanoid
+1. 隨機產生 id
+```node
+npm i nanoid
+```
+
+## Prop-Types
+1. 對 Prop 傳遞進行限制
+```node
+npm i prop-types
+```
