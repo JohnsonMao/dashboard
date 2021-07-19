@@ -19,7 +19,7 @@ body {
     font-size: 16px;
     color: $dark;
     line-height: 1.5;
-    background: no-repeat linear-gradient(174deg, $primary 0%, $primary 52%, #FFF 52%, #FFF 100%);
+    background: no-repeat linear-gradient(174deg, $primary 0%, $primary 56%, #FFF 56%, #FFF 100%);
 }
 del {
     color: lighten($dark-gray, 20);
@@ -172,10 +172,10 @@ del {
 }
 
 // nav
-.nav {
+.btn-group {
     display: flex;
 
-    a {
+    button {
         padding: 16px;
         display: inline-block;
         text-decoration: none;
@@ -184,6 +184,7 @@ del {
         text-align: center;
         vertical-align: middle;
         border-bottom: 2px solid $light-gray;
+        border-radius: 0;
 
         &:hover {
             background: lighten($dark, 75);
@@ -192,7 +193,7 @@ del {
 
     .active {
 
-        a {
+        button {
             color: $dark;
             font-weight: bold;
             border-color: $dark;
@@ -217,8 +218,8 @@ del {
 }
 
 // other
-.vh-50 {
-    height: 50vh;
+.vh-55 {
+    height: 55vh;
 }
 .text-dark-gray {
     color: $dark-gray;
@@ -243,8 +244,8 @@ del {
 .m-1 {
     margin: 4px;
 }
-.mb-2 {
-    margin-bottom: 8px;
+.mb-3 {
+    margin-bottom: 16px;
 }
 .m-4 {
     margin: 20px;

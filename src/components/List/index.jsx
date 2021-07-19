@@ -3,10 +3,15 @@ import Item from '../Item'
 
 export default class List extends Component {
     render() {
+        const { todos } = this.props
         return (
-            <div className="list-frame vh-50">
+            <div className="list-frame vh-55">
                 <ul className="list-group">
-                    <Item />
+                    {
+                        todos.map( todo => {
+                            return <Item key={ todo.id } {...todo} />
+                        })
+                    }
                 </ul>
             </div>
         )
