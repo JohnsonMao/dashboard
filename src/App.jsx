@@ -41,6 +41,42 @@ export default class App extends Component {
         this.setState({todos: newTodos});
     }
 
+    // deleteTodo 用來刪除一個 todo 物件
+    deleteTodo = ( id ) => {
+        // 獲取狀態中的 todos
+        const { todos } = this.state;
+        // 刪除指定 id 的 todo 物件
+        const newTodos = todos.filter( todoObj => {
+            return todoObj.id !== id
+        })
+        // 更新狀態
+        this.setState({todos: newTodos});
+    }
+
+    // checkAllTodo 用來全選
+    checkAllTodo = ( done ) => {
+        // 獲取狀態中的 todos
+        const { todos } = this.state;
+        // 加工數據
+        const newTodos = todos.map( todoObj => {
+            return {...todoObj, done }
+        })
+        // 更新狀態
+        this.setState({todos: newTodos});
+    }
+
+    // clearAllDone 用來清除已完成的
+    clearAllDone = () => {
+        // 獲取狀態中的 todos
+        const { todos } = this.state;
+        // 過濾數據
+        const newTodos = todos.filter( todoObj => {
+            return !todoObj.done
+        })
+        // 更新狀態
+        this.setState({todos: newTodos});
+    }
+
     render() {
         const { todos } = this.state;
         return (
@@ -50,8 +86,12 @@ export default class App extends Component {
                 
                 <div className="bg-white box-shadow rounded-1 overflow-hidden">
                     <Nav />
-                    <List todos = { todos } updateTodo = { this.updateTodo } />
-                    <Footer />
+                    <List todos = { todos } 
+                        updateTodo = { this.updateTodo } 
+                        deleteTodo = { this.deleteTodo } />
+                    <Footer todos = { todos } 
+                        checkAllTodo = { this.checkAllTodo }
+                        clearAllDone = { this.clearAllDone } />
                 </div>
             </div>
         )

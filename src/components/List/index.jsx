@@ -7,11 +7,12 @@ export default class List extends Component {
     // 對接收的 props 進行: 類型，必要性的限制
     static propTypes = {
         todos: PropTypes.array.isRequired,
-        updateTodo: PropTypes.func.isRequired
+        updateTodo: PropTypes.func.isRequired,
+        deleteTodo: PropTypes.func.isRequired,
     }
 
     render() {
-        const { todos, updateTodo } = this.props
+        const { todos, updateTodo, deleteTodo } = this.props
         return (
             <div className="list-frame vh-55">
                 <ul className="list-group">
@@ -19,7 +20,8 @@ export default class List extends Component {
                         todos.map( todo => {
                             return <Item key = { todo.id } 
                                 {...todo} 
-                                updateTodo = { updateTodo } />
+                                updateTodo = { updateTodo }
+                                deleteTodo = { deleteTodo } />
                         })
                     }
                 </ul>
