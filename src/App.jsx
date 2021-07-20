@@ -77,6 +77,14 @@ export default class App extends Component {
         this.setState({todos: newTodos});
     }
 
+    // filterTodo 用來過濾分類清單
+    filterTodo = () => {
+        // 獲取狀態中的 todos
+        const { todos } = this.state;
+        // 分類數據
+        
+    }
+
     render() {
         const { todos } = this.state;
         return (

@@ -20,7 +20,8 @@ export default class Item extends Component {
         const { id, name, done } = this.props;
         return (
             <div>
-                <li className="input-group">
+                <li className="input-group"
+                style={ true ? {} : { display: "none" }} >
                     <input type="checkbox" id={ id }
                     className="form-check m-4"
                     checked={ done }
