@@ -33,13 +33,15 @@ export default class Header extends Component {
 
     // 按鈕事件的回調函數
     handleAddTodo = () => {
+        // 解構賦值獲取 value 並重新命名為 name
+        let { value: name } = this.newTodo.current;
         // 添加的 todo 名字不能空白
-        if( this.newTodo.current.value.trim() === ''){
+        if( name.trim() === ''){
             alert('請輸入代辦事項');
             return
         }
         // 準備好一個 todo 物件
-        const todoObj = { id: nanoid(), name: this.newTodo.current.value, done: false };
+        const todoObj = { id: nanoid(), name, done: false };
         // 把 todoObj 傳遞給 App.jsx
         this.props.addTodo( todoObj );
         // 輸入完清空

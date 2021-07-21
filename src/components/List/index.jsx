@@ -7,12 +7,13 @@ export default class List extends Component {
     // 對接收的 props 進行: 類型，必要性的限制
     static propTypes = {
         todos: PropTypes.array.isRequired,
+        filterTodos: PropTypes.array.isRequired,
         updateTodo: PropTypes.func.isRequired,
         deleteTodo: PropTypes.func.isRequired,
     }
 
     render() {
-        const { todos, updateTodo, deleteTodo } = this.props
+        const { todos, filterTodo, updateTodo, deleteTodo } = this.props
         return (
             <div className="list-frame vh-55">
                 <ul className="list-group">

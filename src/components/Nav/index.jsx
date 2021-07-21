@@ -1,38 +1,33 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Nav extends Component {
 
-    // React.createRef 調用後可以返回一個容器，該容器可以儲存被 ref 所標記的節點
-    updateFilter = React.createRef()
-
-    // handleDisplayAll 用來顯示全部的清單
-    handleDisplayAll = (event) => {
-        console.log(this.updateFilter.current.children, event.target.id);
+    // 對接收的 props 進行: 類型，必要性的限制
+    static propTypes = {
+        filterBtn: PropTypes.func.isRequired,
     }
 
-    // handleDisplayUndone 用來顯示待完成的清單
-    handleDisplayUndone = () => {
-    }
-
-    // handleDisplayDone 用來顯示完成的清單
-    handleDisplayDone = () => {
-
+    // handleFilter 用來選擇過濾 todo 的代號
+    handleFilter = ( event ) => {
+        this.props.filterBtn( event.target.id );
     }
 
     render() {
+        const { filterType } = this.props;
         return (
-            <ul ref = { this.updateFilter } className="btn-group">
-                <li className="col active">
+            <ul className="btn-group">
+                <li className={ filterType === "all" ? 'col active' : 'col' }>
                     <button className="btn" id="all"
-                    onClick={ this.handleDisplayAll }>全部</button>
+                    onClick={ this.handleFilter }>全部</button>
                 </li>
-                <li className="col">
+                <li className={ filterType === "undone" ? 'col active' : 'col' }>
                     <button className="btn" id="undone"
-                    onClick={ this.handleDisplayUndone }>待完成</button>
+                    onClick={ this.handleFilter }>待完成</button>
                 </li>
-                <li className="col">
+                <li className={ filterType === "done" ? 'col active' : 'col' }>
                     <button className="btn" id="done"
-                    onClick={ this.handleDisplayDone }>已完成</button>
+                    onClick={ this.handleFilter }>已完成</button>
                 </li>
             </ul>
         )

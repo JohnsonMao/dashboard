@@ -8,7 +8,10 @@ import './App.css';
 export default class App extends Component {
 
     // 初始化狀態
-    state = {todos: [
+    state = {
+        // 0 代表顯示全部，1 代表顯示待完成，2 代表顯示完成
+        filterType: "all",
+        todos: [
         {id: '001', name: '把冰箱發霉的檸檬拿去丟', done: false},
         {id: '002', name: '打電話叫媽媽匯款給我', done: true},
         {id: '003', name: '整理電腦資料夾', done: false},
@@ -16,7 +19,9 @@ export default class App extends Component {
         {id: '005', name: '刪訊息', done: false},
         {id: '006', name: '約 vicky 禮拜三泡溫泉', done: false},
         {id: '007', name: '約 ada 禮拜四吃晚餐', done: false},
-    ]}
+        ],
+        filterTodos: [],
+    }
 
     // addTodo 用來添加 todo，接收的參數是 todo 物件
     addTodo = ( todoObj ) => {
@@ -77,24 +82,52 @@ export default class App extends Component {
         this.setState({todos: newTodos});
     }
 
-    // filterTodo 用來過濾分類清單
-    filterTodo = () => {
+    // filterBtn 用來決定過濾類型
+    filterBtn = ( filterBtnId ) => {
+        this.setState({ filterType: filterBtnId });
         // 獲取狀態中的 todos
-        const { todos } = this.state;
+        const { filterType, todos } = this.state;
         // 分類數據
-        
+        const newTodos =
+            filterType === 'undone' ? todos.filter( todoObj => {
+                return !todoObj.done
+            }) :
+            filterType === 'done' ? todos.filter( todoObj => {
+                return todoObj.done
+            }) : 
+            todos ;
+        this.setState({ filterTodos: newTodos });
+    }
+
+    // filterTodo 用來過濾分類清單
+    filterTodo = ( id, done ) => {
+        // 獲取狀態中的 todos
+        const { filterType, todos } = this.state;
+        // 分類數據
+        const newTodos =
+            filterType === 'undone' ? todos.filter( todoObj => {
+                return !todoObj.done
+            }) :
+            filterType === 'done' ? todos.filter( todoObj => {
+                return todoObj.done
+            }) : 
+            todos ;
+        this.setState({filterTodos: newTodos});
     }
 
     render() {
-        const { todos } = this.state;
+        const { filterType, todos, filterTodos } = this.state;
         return (
             <div className="container">
                 <h1 className="h1 py-4">TODOLIST</h1>
                 <Header addTodo = { this.addTodo } />
                 
                 <div className="bg-white box-shadow rounded-1 overflow-hidden">
-                    <Nav />
+                    <Nav filterType = { filterType } 
+                        filterBtn = { this.filterBtn } />
                     <List todos = { todos } 
+                        filterTodos = { filterTodos }
+                        filterTodo = { this.filterTodo }
                         updateTodo = { this.updateTodo } 
                         deleteTodo = { this.deleteTodo } />
                     <Footer todos = { todos } 
