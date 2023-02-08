@@ -4,7 +4,7 @@ import { Form, Container, Navbar, Nav } from 'react-bootstrap';
 
 const Header: React.FC = () => {
     return (
-        <Navbar className='border-bottom'>
+        <Navbar className='border-bottom mb-3'>
             <Container>
                 <Navbar.Brand as={Link} to='/'>Social App</Navbar.Brand>
                 <Navbar.Text className='me-auto'>

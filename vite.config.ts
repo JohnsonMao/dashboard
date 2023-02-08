@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
         plugins: [react()],
         server: {
             host: '0.0.0.0',
-            open: true,
-        },
+            open: true
+        }
     };
 });
