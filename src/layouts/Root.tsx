@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 
-const Layout: React.FC = () => {
+const Root: React.FC = () => {
     return (
         <>
             <Header />
@@ -14,4 +14,4 @@ const Layout: React.FC = () => {
     );
 };
 
-export default Layout;
+export default Root;

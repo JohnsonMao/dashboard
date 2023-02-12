@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Container, Navbar, Nav } from 'react-bootstrap';
 import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 
-import auth from '../../utils/firebase';
+import { auth } from '../../utils/firebase';
 
 const Header: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -26,7 +26,7 @@ const Header: React.FC = () => {
                 <Nav className="justify-content-end gap-3">
                     {user ? (
                         <>
-                            <Nav.Item as={Link} to="/createPost">
+                            <Nav.Item as={Link} to="/newPost">
                                 發表文章
                             </Nav.Item>
                             <Nav.Item as={Link} to="/user">
