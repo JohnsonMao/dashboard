@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
     const isDev = mode === 'development';
 
     return {
-        base: isDev ? '/' : '/scrum_f2e/',
+        base: isDev ? '/' : '/react_practive/',
         plugins: [react()],
         server: {
             host: '0.0.0.0',
