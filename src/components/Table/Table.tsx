@@ -95,6 +95,7 @@ export default function StickyHeadTable() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
     const handleClick = () => {
         const workbook = new ExcelJs.Workbook();
         const sheet = workbook.addWorksheet('測試工作表名稱');
@@ -117,6 +118,11 @@ export default function StickyHeadTable() {
             pattern: 'solid',
             fgColor: { argb: 'FF0000FF' }
         };
+        sheet.getRow(3).fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FF00FF00' }
+        }
 
         workbook.xlsx.writeBuffer().then((content) => {
             const link = document.createElement('a');
@@ -129,7 +135,7 @@ export default function StickyHeadTable() {
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
