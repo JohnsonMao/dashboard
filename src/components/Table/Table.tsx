@@ -1,6 +1,6 @@
 import React from 'react';
 import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
+import MuiTable from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -53,12 +53,7 @@ interface Data {
     density: number;
 }
 
-function createData(
-    name: string,
-    code: string,
-    population: number,
-    size: number
-): Data {
+function createData(name: string, code: string, population: number, size: number): Data {
     const density = population / size;
     return { name, code, population, size, density };
 }
@@ -81,7 +76,7 @@ const rows = [
     createData('Brazil', 'BR', 210147125, 8515767)
 ];
 
-export default function StickyHeadTable() {
+const Table = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -89,9 +84,7 @@ export default function StickyHeadTable() {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
@@ -105,13 +98,7 @@ export default function StickyHeadTable() {
             name: 'mao',
             ref: 'A1',
             columns: columns.map((column) => ({ name: column.label })),
-            rows: rows.map((row) => [
-                row.name,
-                row.code,
-                row.population,
-                row.size,
-                row.density
-            ])
+            rows: rows.map((row) => [row.name, row.code, row.population, row.size, row.density])
         });
         sheet.getCell('A2').fill = {
             type: 'pattern',
@@ -122,7 +109,7 @@ export default function StickyHeadTable() {
             type: 'pattern',
             pattern: 'solid',
             fgColor: { argb: 'FF00FF00' }
-        }
+        };
 
         workbook.xlsx.writeBuffer().then((content) => {
             const link = document.createElement('a');
@@ -136,7 +123,7 @@ export default function StickyHeadTable() {
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer>
-                <Table stickyHeader aria-label="sticky table">
+                <MuiTable stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
@@ -152,37 +139,23 @@ export default function StickyHeadTable() {
                     </TableHead>
                     <TableBody>
                         {rows
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row) => {
-                                return (
-                                    <TableRow
-                                        hover
-                                        role="checkbox"
-                                        tabIndex={-1}
-                                        key={row.code}
-                                    >
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell
-                                                    key={column.id}
-                                                    align={column.align}
-                                                >
-                                                    {column.format &&
-                                                    typeof value === 'number'
-                                                        ? column.format(value)
-                                                        : value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => (
+                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                    {columns.map((column) => {
+                                        const value = row[column.id];
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                                {column.format && typeof value === 'number'
+                                                    ? column.format(value)
+                                                    : value}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            ))}
                     </TableBody>
-                </Table>
+                </MuiTable>
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
@@ -200,4 +173,6 @@ export default function StickyHeadTable() {
             </Box>
         </Paper>
     );
-}
+};
+
+export default Table;

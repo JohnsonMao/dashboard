@@ -1,25 +1,52 @@
 {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
     "env": {
         "browser": true,
-        "es2021": true
+        "es6": true,
+        "jest": true
     },
-    "extends": ["eslint:recommended", "plugin:react/jsx-runtime", "react-app"],
-    "overrides": [],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "plugins": ["react"],
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "airbnb",
+        "airbnb/hooks",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
     "rules": {
-        "no-tabs": "off",
-        "max-len": "off",
-        "arrow-parens": "off",
-        "indent": ["off", "tab"],
-        "no-param-reassign": "off",
-        "no-underscore-dangle": "off",
-        "object-curly-newline": "off",
+        "import/extensions": "off",
+        "import/no-extraneous-dependencies": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
+        "react/jsx-indent": [2, 4, { "checkAttributes": false }],
+        "react/jsx-indent-props": [2, 4],
+        "react-hooks/exhaustive-deps": "warn",
+        "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
+        "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+        "react/prop-types": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/indent": ["error", 4],
+        "implicit-arrow-linebreak": "off",
         "comma-dangle": ["error", "never"],
-        "quotes": ["error", "single", { "avoidEscape": true }],
-        "no-restricted-imports": ["error", { "patterns": ["@mui/*/*/*"] }]
+        "indent": ["error", 4],
+        "object-curly-newline": [
+            "error",
+            {
+                "ObjectPattern": { "multiline": true },
+                "ImportDeclaration": { "multiline": true, "minProperties": 5 },
+                "ExportDeclaration": { "multiline": true, "minProperties": 5 }
+            }
+        ]
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
     }
 }

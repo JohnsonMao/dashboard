@@ -1,11 +1,5 @@
 import Table from '../components/Table';
 
-const Example = () => {
-    return (
-        <>
-            <Table />
-        </>
-    );
-};
+const Example: React.FC = () => <Table />;
 
 export default Example;

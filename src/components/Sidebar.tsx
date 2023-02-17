@@ -1,9 +1,7 @@
-import React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import { useState } from 'react';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
@@ -12,7 +10,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import Toolbar from '@mui/material/Toolbar';
-import { blueGrey } from '@mui/material/colors';
 
 const DRAWER_WIDTH = 200;
 
@@ -55,13 +52,13 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Sidebar: React.FC = () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setOpen(!open);
     };
 
-    const [childOpen, setChildOpen] = React.useState<boolean[]>([]);
+    const [childOpen, setChildOpen] = useState<boolean[]>([]);
 
     const handleClick = (index: number) => {
         setChildOpen((pre) => {

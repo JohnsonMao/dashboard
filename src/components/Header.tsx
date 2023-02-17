@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,9 +13,7 @@ import { ThemeContext } from '../contexts/ThemeContext';
 const Header: React.FC = () => {
     const theme = useTheme();
     const colorMode = useContext(ThemeContext);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-        null
-    );
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
