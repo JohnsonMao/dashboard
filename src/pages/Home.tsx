@@ -1,11 +1,29 @@
-import { EventPropGetter, DayPropGetter, EventWrapperProps, Components } from 'react-big-calendar';
+import {
+    Event,
+    EventPropGetter,
+    DayPropGetter,
+    EventWrapperProps,
+    Components
+} from 'react-big-calendar';
 import Typography from '@mui/material/Typography';
 import format from 'date-fns/format';
 
 import Calendar from '../components/Calendar';
 import Popover from '../components/Popover';
 import json from '../assets/mocks/calendar.json';
-import { CalendarEvent } from '../types/types';
+
+/**
+ * 行事曆活動 API 的格式
+ * @property {1 | 2 | 3 | 4 | null} CalendarEvent.type          - 活動類型
+ * @property {string | null}        CalendarEvent.note          - 備註
+ * @property {string | null}        CalendarEvent.description   - 活動描述
+ */
+
+export interface CalendarEvent extends Event {
+    type?: number | null;
+    note?: string | null;
+    description?: string | null;
+}
 
 const events: CalendarEvent[] = json.map((d) => ({
     ...d,
@@ -16,47 +34,37 @@ const events: CalendarEvent[] = json.map((d) => ({
 }));
 
 const customEventPropGetter: EventPropGetter<CalendarEvent> = (event) => {
-    if (event.allDay && event.type === 1) {
-        return {
-            style: {
-                background: 'transparent',
-                color: 'inherit',
-                border: '0px'
-            }
-        };
+    if (event.allDay) {
+        switch (event.type) {
+            case 1:
+            case 2:
+                return { className: 'all-day-event' };
+            default:
+        }
     }
     return {};
 };
 
 const eventMap = events.reduce(
     (o, d) => (d.start ? o.set(format(d.start, 'yyyy/MM/dd'), d) : o),
-    new Map()
+    new Map<string, CalendarEvent>()
 );
 
 const customDayPropGetter: DayPropGetter = (date) => {
     const e = eventMap.get(format(date, 'yyyy/MM/dd'));
 
-    if (e.allDay) {
-        if (e.type === 1) {
-            return {
-                style: {
-                    background: '#afa9'
-                }
-            };
-        }
-        if (e.type === 2) {
-            return {
-                style: {
-                    background: '#fbb3'
-                }
-            };
+    if (e?.allDay) {
+        switch (e.type) {
+            case 1:
+                return { className: 'holiday-color' };
+            case 2:
+                return { className: 'make-up-workday-color' };
+            default:
         }
     }
     if (date.getDay() === 0 || date.getDay() === 6) {
         return {
-            style: {
-                background: '#faa6'
-            }
+            className: 'weekend-color'
         };
     }
     return {};

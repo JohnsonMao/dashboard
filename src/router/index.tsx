@@ -16,6 +16,10 @@ const router = createBrowserRouter([
             {
                 path: 'home',
                 element: <Home />
+            },
+            {
+                path: '*',
+                element: <>尚未完成</>
             }
         ]
     }

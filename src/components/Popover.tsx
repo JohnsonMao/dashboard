@@ -1,6 +1,6 @@
 import { useState, PropsWithChildren } from 'react';
 import MuiPopover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 export interface PopoverProps extends PropsWithChildren {
     popoverContent: React.ReactNode;
@@ -18,15 +18,15 @@ const Popover: React.FC<PopoverProps> = ({ children, popoverContent }) => {
     };
 
     return (
-        <div>
-            <Typography
+        <Box>
+            <Box
                 aria-owns={anchorEl ? 'mouse-over-popover' : undefined}
                 aria-haspopup="true"
                 onMouseEnter={handlePopoverOpen}
                 onMouseLeave={handlePopoverClose}
             >
                 {children}
-            </Typography>
+            </Box>
             {popoverContent && (
                 <MuiPopover
                     sx={{
@@ -45,10 +45,10 @@ const Popover: React.FC<PopoverProps> = ({ children, popoverContent }) => {
                     onClose={handlePopoverClose}
                     disableRestoreFocus
                 >
-                    <Typography sx={{ p: 1 }}>{popoverContent}</Typography>
+                    <Box sx={{ p: 1 }}>{popoverContent}</Box>
                 </MuiPopover>
             )}
-        </div>
+        </Box>
     );
 };
 

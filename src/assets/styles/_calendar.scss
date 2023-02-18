@@ -1,5 +1,23 @@
+.weekend-color {
+    background-color: #faa5;
+}
+
+.make-up-workday-color {
+    background-color: #fbb3;
+}
+
+.holiday-color {
+    background-color: #faa8;
+}
+
 @import 'react-big-calendar/lib/sass/styles.scss';
 
 .rbc-btn-group {
     display: flex;
+}
+
+.all-day-event {
+    background: transparent;
+    color: inherit;
+    border: 0px;
 }

@@ -3,17 +3,25 @@ import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
+import RightIcon from '@mui/icons-material/ChevronRightRounded';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 import { ThemeContext } from '../contexts/ThemeContext';
+import { MenuContext } from '../contexts/MenuContext';
 
 const Header: React.FC = () => {
     const theme = useTheme();
-    const colorMode = useContext(ThemeContext);
+
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+    const colorMode = useContext(ThemeContext);
+    const { open, toggleMenu } = useContext(MenuContext);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -37,9 +45,7 @@ const Header: React.FC = () => {
                 >
                     <Typography>現在狀態：上班</Typography>
                     <Box>
-                        <Typography onClick={handleOpenUserMenu}>
-                            johnson.mao
-                        </Typography>
+                        <Typography onClick={handleOpenUserMenu}>johnson.mao</Typography>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElUser}
@@ -51,17 +57,17 @@ const Header: React.FC = () => {
                             </MenuItem>
                         </Menu>
                     </Box>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={colorMode.toggleColorMode}
-                    >
-                        {theme.palette.mode}
-                        mode
-                    </Button>
+                    <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+                        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                    </IconButton>
                     <Button variant="contained" color="secondary">
                         登出
                     </Button>
+                </Box>
+                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                    <IconButton onClick={toggleMenu} color="inherit" size="large">
+                        <RightIcon sx={{ transform: `rotate(${open ? 180 : 0}deg)` }} />
+                    </IconButton>
                 </Box>
             </Toolbar>
         </AppBar>

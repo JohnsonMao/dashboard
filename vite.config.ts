@@ -12,7 +12,15 @@ export default defineConfig(({ mode }) => {
         plugins: [react()],
         server: {
             host: '0.0.0.0',
-            open: true
+            open: true,
+            proxy: {
+                '/api': {
+                    target: 'http://slopeuat.freeway.gov.tw/web',
+                    changeOrigin: true,
+                    secure: false,
+                    rewrite: (path) => path.replace(/^\/api/, '')
+                }
+            }
         }
     };
 });

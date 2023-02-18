@@ -1,4 +1,4 @@
-import React, { useState, useMemo, createContext, PropsWithChildren } from 'react';
+import { useState, useMemo, createContext } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { blueGrey } from '@mui/material/colors';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 export const ThemeContext = createContext({ toggleColorMode: () => {} });
 
-const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
+const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const [mode, setMode] = useState<'light' | 'dark'>(prefersDarkMode ? 'dark' : 'light');
 
@@ -25,7 +25,7 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
                 palette: {
                     mode,
                     primary: {
-                        main: blueGrey[800]
+                        main: blueGrey[900]
                     }
                 },
                 components: {

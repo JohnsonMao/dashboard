@@ -32,7 +32,7 @@
         "@typescript-eslint/indent": ["error", 4],
         "implicit-arrow-linebreak": "off",
         "comma-dangle": ["error", "never"],
-        "indent": ["error", 4],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "object-curly-newline": [
             "error",
             {
