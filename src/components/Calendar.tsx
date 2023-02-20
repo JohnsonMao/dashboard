@@ -1,4 +1,11 @@
-import { Calendar as ReactBigCalendar, CalendarProps, dateFnsLocalizer } from 'react-big-calendar';
+import { useState, useEffect } from 'react';
+import {
+    Calendar as ReactBigCalendar,
+    CalendarProps,
+    dateFnsLocalizer,
+    Views,
+    View
+} from 'react-big-calendar';
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
@@ -32,17 +39,44 @@ const message = {
     noEventsInRange: '目前無活動'
 };
 
-const Calendar: React.FC<Partial<CalendarProps>> = (props) => (
-    <ReactBigCalendar
-        localizer={localizer}
-        messages={message}
-        startAccessor="start"
-        endAccessor="end"
-        culture="zh-TW"
-        style={{ height: 'calc(100vh - 110px)' }}
-        popup
-        {...props}
-    />
-);
+const breakPoint = (window: Window) => window.innerWidth < 600;
+
+const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
+    const [isMobile, setIsMobile] = useState(breakPoint(window));
+    const [view, setView] = useState<View>(isMobile ? Views.AGENDA : Views.MONTH);
+    const views = isMobile
+        ? [Views.AGENDA]
+        : [Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA];
+
+    const handleView = (v: View) => {
+        setView(v);
+    };
+
+    useEffect(() => {
+        const resizeCalendar = (e: Event) => {
+            setIsMobile(() => {
+                if (breakPoint(e.target as Window)) setView(Views.AGENDA);
+                return breakPoint(e.target as Window);
+            });
+        };
+        window.addEventListener('resize', resizeCalendar);
+
+        return () => window.removeEventListener('resize', resizeCalendar);
+    }, []);
+
+    return (
+        <ReactBigCalendar
+            localizer={localizer}
+            messages={message}
+            culture="zh-TW"
+            view={view}
+            views={views}
+            onView={handleView}
+            style={{ height: 'calc(100vh - 110px)' }}
+            popup
+            {...props}
+        />
+    );
+};
 
 export default Calendar;

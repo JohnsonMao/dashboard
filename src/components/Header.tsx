@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,16 +12,16 @@ import RightIcon from '@mui/icons-material/ChevronRightRounded';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-import { ThemeContext } from '../contexts/ThemeContext';
-import { MenuContext } from '../contexts/MenuContext';
+import { useThemeContext } from '../contexts/ThemeContext';
+import { useMenuContext } from '../contexts/MenuContext';
 
 const Header: React.FC = () => {
     const theme = useTheme();
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-    const colorMode = useContext(ThemeContext);
-    const { open, toggleMenu } = useContext(MenuContext);
+    const { toggleColorMode } = useThemeContext();
+    const { open, toggleMenu } = useMenuContext();
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
                 <Typography>Logo</Typography>
                 <Box
                     sx={{
-                        display: { xs: 'none', sm: 'flex' },
+                        display: { xs: 'none', md: 'flex' },
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         gap: 2
@@ -45,7 +45,9 @@ const Header: React.FC = () => {
                 >
                     <Typography>現在狀態：上班</Typography>
                     <Box>
-                        <Typography onClick={handleOpenUserMenu}>johnson.mao</Typography>
+                        <Typography onClick={handleOpenUserMenu}>
+                            johnson.mao
+                        </Typography>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElUser}
@@ -57,16 +59,26 @@ const Header: React.FC = () => {
                             </MenuItem>
                         </Menu>
                     </Box>
-                    <IconButton onClick={colorMode.toggleColorMode} color="inherit">
-                        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                    <IconButton onClick={toggleColorMode} color="inherit">
+                        {theme.palette.mode === 'dark' ? (
+                            <Brightness7Icon />
+                        ) : (
+                            <Brightness4Icon />
+                        )}
                     </IconButton>
                     <Button variant="contained" color="secondary">
                         登出
                     </Button>
                 </Box>
-                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                    <IconButton onClick={toggleMenu} color="inherit" size="large">
-                        <RightIcon sx={{ transform: `rotate(${open ? 180 : 0}deg)` }} />
+                <Box sx={{ display: { sm: 'block', md: 'none' } }}>
+                    <IconButton
+                        onClick={toggleMenu}
+                        color="inherit"
+                        size="large"
+                    >
+                        <RightIcon
+                            sx={{ transform: `rotate(${open ? 180 : 0}deg)` }}
+                        />
                     </IconButton>
                 </Box>
             </Toolbar>

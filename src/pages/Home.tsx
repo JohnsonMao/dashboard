@@ -10,7 +10,8 @@ import format from 'date-fns/format';
 
 import Calendar from '../components/Calendar';
 import Popover from '../components/Popover';
-import json from '../assets/mocks/calendar.json';
+
+import eventJson from '../assets/mocks/calendar.json';
 
 /**
  * 行事曆活動 API 的格式
@@ -25,7 +26,7 @@ export interface CalendarEvent extends Event {
     description?: string | null;
 }
 
-const events: CalendarEvent[] = json.map((d) => ({
+const events: CalendarEvent[] = eventJson.map((d) => ({
     ...d,
     title: `${d.title} ${d.description}`,
     allDay: d.end === null,

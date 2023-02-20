@@ -1,12 +1,13 @@
-import { useState, PropsWithChildren } from 'react';
+import { useState } from 'react';
 import MuiPopover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 
-export interface PopoverProps extends PropsWithChildren {
+export interface PopoverProps extends React.PropsWithChildren {
     popoverContent: React.ReactNode;
 }
 
-const Popover: React.FC<PopoverProps> = ({ children, popoverContent }) => {
+const Popover: React.FC<PopoverProps> = (props) => {
+    const { children, popoverContent } = props;
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {

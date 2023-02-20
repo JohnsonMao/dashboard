@@ -1,19 +1,31 @@
-import { useState, useMemo, createContext } from 'react';
-import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { useState, useMemo, createContext, useContext } from 'react';
+import {
+    createTheme,
+    ThemeProvider as MuiThemeProvider
+} from '@mui/material/styles';
 import { blueGrey } from '@mui/material/colors';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 
-export const ThemeContext = createContext({ toggleColorMode: () => {} });
+const ThemeContext = createContext({ toggleColorMode: () => {} });
 
-const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const useThemeContext = () => {
+    const ctx = useContext(ThemeContext);
+
+    return ctx;
+};
+
+export const ThemeProvider: React.FC<React.PropsWithChildren> = (props) => {
+    const { children } = props;
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const [mode, setMode] = useState<'light' | 'dark'>(prefersDarkMode ? 'dark' : 'light');
+    const [mode, setMode] = useState<'light' | 'dark'>(
+        prefersDarkMode ? 'dark' : 'light'
+    );
 
     const colorMode = useMemo(
         () => ({
             toggleColorMode: () => {
-                setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+                setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
             }
         }),
         []
@@ -48,5 +60,3 @@ const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         </ThemeContext.Provider>
     );
 };
-
-export default ThemeProvider;

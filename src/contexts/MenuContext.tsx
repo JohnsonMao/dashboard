@@ -1,9 +1,16 @@
-import { createContext, useState, useMemo } from 'react';
+import { createContext, useState, useMemo, useContext } from 'react';
 
-export const MenuContext = createContext({ open: false, toggleMenu: () => {} });
+const MenuContext = createContext({ open: false, toggleMenu: () => {} });
 
-const MenuProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const [open, setOpen] = useState(false);
+export const useMenuContext = () => {
+    const ctx = useContext(MenuContext);
+
+    return ctx;
+};
+
+export const MenuProvider: React.FC<React.PropsWithChildren> = (props) => {
+    const { children } = props;
+    const [open, setOpen] = useState(window.innerWidth >= 900);
 
     const MenuValue = useMemo(
         () => ({
@@ -15,7 +22,9 @@ const MenuProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         [open]
     );
 
-    return <MenuContext.Provider value={MenuValue}>{children}</MenuContext.Provider>;
+    return (
+        <MenuContext.Provider value={MenuValue}>
+            {children}
+        </MenuContext.Provider>
+    );
 };
-
-export default MenuProvider;
