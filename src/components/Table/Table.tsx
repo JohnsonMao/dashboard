@@ -123,7 +123,7 @@ const Table = () => {
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer>
-                <MuiTable stickyHeader aria-label="sticky table">
+                <MuiTable stickyHeader>
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
