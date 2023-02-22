@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+/* Mui */
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -10,51 +11,44 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import Toolbar from '@mui/material/Toolbar';
-import RightIcon from '@mui/icons-material/ChevronRightRounded';
-import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
-import NavLink from './NavLink';
+/* Icon */
+import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import LogoutIcon from '@mui/icons-material/LogoutRounded';
+import PersonIcon from '@mui/icons-material/PersonRounded';
+
+/* Context */
 import { useMenuContext } from '../contexts/MenuContext';
+
+/* Component */
+import NavLink from './NavLink';
+
+/* Mock */
 import sidebar from '../assets/mocks/sidebar.json';
 
-const DRAWER_WIDTH = 200;
-const openedMixin = (theme: Theme, isMobile?: boolean): CSSObject => ({
-    width: '100%',
-    height: 'calc(100vh - 72.5px)',
+const openedMixin = (theme: Theme): CSSObject => ({
+    width: '200px',
     overflowX: 'hidden',
-    boxShadow: theme.shadows[2],
-    transition: theme.transitions.create('height', {
+    transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen
     }),
     [theme.breakpoints.up('md')]: {
-        display: isMobile ? 'none' : 'block',
-        width: DRAWER_WIDTH,
-        height: '100%',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen
-        })
+        display: 'block',
+        boxShadow: theme.shadows[2]
     }
 });
 
-const closedMixin = (theme: Theme, isMobile?: boolean): CSSObject => ({
-    width: '100%',
-    height: 0,
-    overflow: 'hidden',
-    boxShadow: theme.shadows[2],
-    transition: theme.transitions.create('height', {
+const closedMixin = (theme: Theme): CSSObject => ({
+    width: '64px',
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
     }),
     [theme.breakpoints.up('md')]: {
-        display: isMobile ? 'none' : 'block',
-        width: '64px',
-        height: '100%',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen
-        })
+        display: 'block',
+        boxShadow: theme.shadows[2]
     }
 });
 
@@ -75,7 +69,13 @@ const DasktopDrawer = styled(Drawer, {
     })
 }));
 
-const MenuList: React.FC = () => {
+const rotateSX = (isRight: boolean) => ({
+    transform: `rotate(${isRight ? 0 : -90}deg)`,
+    transition: 'transform .25s'
+});
+
+const MenuList: React.FC<{ children?: React.ReactNode }> = (props) => {
+    const { children } = props;
     const { open, toggleMenu } = useMenuContext();
     const [childOpen, setChildOpen] = useState<boolean[]>([]);
 
@@ -117,13 +117,7 @@ const MenuList: React.FC = () => {
                             sx={{ opacity: open ? 1 : 0 }}
                         />
                         {page.children && open && (
-                            <DownIcon
-                                sx={{
-                                    transform: `rotate(${
-                                        childOpen[index] ? 180 : 0
-                                    }deg)`
-                                }}
-                            />
+                            <DownIcon sx={rotateSX(childOpen[index])} />
                         )}
                     </ListItemButton>
                     <Collapse
@@ -147,15 +141,22 @@ const MenuList: React.FC = () => {
                     </Collapse>
                 </ListItem>
             ))}
+            {children}
         </List>
     );
 };
 
 const ResponsiveDrawer: React.FC = () => {
     const { open, toggleMenu } = useMenuContext();
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+    const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser((pre) => (pre ? null : event.currentTarget));
+    };
 
     return (
-        <Box component="nav" aria-label="sidebar">
+        <Box component="nav">
+            {/* 手機板 */}
             <Drawer
                 variant="temporary"
                 anchor="top"
@@ -172,15 +173,35 @@ const ResponsiveDrawer: React.FC = () => {
                 }}
             >
                 <Toolbar />
-                <MenuList />
+                <MenuList>
+                    <ListItemButton>
+                        <ListItemText primary="現在狀態：上班" />
+                    </ListItemButton>
+                    <ListItemButton onClick={handleUserMenu}>
+                        <PersonIcon />
+                        <ListItemText primary="johnson.mao" />
+                        <DownIcon sx={rotateSX(!!anchorElUser)} />
+                    </ListItemButton>
+                    <Collapse in={!!anchorElUser} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemText primary="偏好設定" />
+                            </ListItemButton>
+                        </List>
+                    </Collapse>
+                    <ListItemButton>
+                        <LogoutIcon />
+                        <ListItemText primary="登出" />
+                    </ListItemButton>
+                </MenuList>
             </Drawer>
+            {/* 電腦板 */}
             <DasktopDrawer variant="permanent" open={open}>
                 <Toolbar />
                 <MenuList />
                 <Button
                     onClick={toggleMenu}
                     sx={{
-                        display: { md: 'flex', sm: 'none' },
                         position: 'absolute',
                         bottom: 0,
                         p: 1
@@ -188,8 +209,8 @@ const ResponsiveDrawer: React.FC = () => {
                     color="inherit"
                     fullWidth
                 >
-                    <RightIcon
-                        sx={{ transform: `rotate(${open ? 180 : 0}deg)` }}
+                    <DownIcon
+                        sx={{ transform: `rotate(${open ? 90 : -90}deg)` }}
                     />
                 </Button>
             </DasktopDrawer>

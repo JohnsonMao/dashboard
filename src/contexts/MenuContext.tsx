@@ -10,7 +10,8 @@ export const useMenuContext = () => {
 
 export const MenuProvider: React.FC<React.PropsWithChildren> = (props) => {
     const { children } = props;
-    const [open, setOpen] = useState(window.innerWidth >= 900);
+    const isDasktop = window.innerWidth >= 900;
+    const [open, setOpen] = useState(isDasktop);
 
     const MenuValue = useMemo(
         () => ({

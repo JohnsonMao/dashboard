@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+
+/* Calendar dependencies */
 import {
     Calendar as ReactBigCalendar,
     CalendarProps,
@@ -72,7 +74,7 @@ const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
             view={view}
             views={views}
             onView={handleView}
-            style={{ height: 'calc(100vh - 110px)' }}
+            style={{ height: 'calc(100vh - 100px)' }}
             popup
             {...props}
         />

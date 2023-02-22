@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import MuiPopover from '@mui/material/Popover';
+
+/* Mui */
+import MuiPopover, { PopoverProps as MuiPopProps } from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 
-export interface PopoverProps extends React.PropsWithChildren {
+export interface PopoverProps extends Partial<MuiPopProps> {
+    mode: 'hover' | 'click';
     popoverContent: React.ReactNode;
+    children: React.ReactNode;
 }
 
 const Popover: React.FC<PopoverProps> = (props) => {
-    const { children, popoverContent } = props;
+    const { children, popoverContent, mode, ...restProps } = props;
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -18,33 +22,28 @@ const Popover: React.FC<PopoverProps> = (props) => {
         setAnchorEl(null);
     };
 
+    const isClickMode = mode === 'click';
+
+    const hoverMode = {
+        onMouseEnter: handlePopoverOpen,
+        onMouseLeave: handlePopoverClose
+    };
+
+    const clickMode = {
+        onClick: handlePopoverOpen
+    };
+
     return (
         <Box>
-            <Box
-                aria-owns={anchorEl ? 'mouse-over-popover' : undefined}
-                aria-haspopup="true"
-                onMouseEnter={handlePopoverOpen}
-                onMouseLeave={handlePopoverClose}
-            >
-                {children}
-            </Box>
+            <Box {...(isClickMode ? clickMode : hoverMode)}>{children}</Box>
             {popoverContent && (
                 <MuiPopover
-                    sx={{
-                        pointerEvents: 'none'
-                    }}
+                    sx={{ pointerEvents: isClickMode ? 'auto' : 'none' }}
                     open={!!anchorEl}
                     anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'center',
-                        horizontal: 'center'
-                    }}
-                    transformOrigin={{
-                        vertical: 'center',
-                        horizontal: 'center'
-                    }}
                     onClose={handlePopoverClose}
                     disableRestoreFocus
+                    {...restProps}
                 >
                     <Box sx={{ p: 1 }}>{popoverContent}</Box>
                 </MuiPopover>

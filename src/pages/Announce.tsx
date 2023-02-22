@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 
 import Tabs from '../components/Tabs';
+import Table from '../components/Table';
 
 enum announceType {
     '其他',
@@ -37,10 +38,11 @@ const Announce: React.FC = () => {
     };
 
     return (
-        <Tabs value={value} tabs={tabs} onChange={handleChange}>
-            {tabs.map((tab) => (
+        <Tabs value={value} tabs={tabs} onChange={handleChange} sx={{ mt: -2 }}>
+            {/* {tabs.map((tab) => (
                 <Box key={tab.value}>{value === tab.value && tab.label}</Box>
-            ))}
+            ))} */}
+            <Table />
         </Tabs>
     );
 };

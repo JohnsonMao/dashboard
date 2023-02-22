@@ -80,7 +80,22 @@ const eventWrapper: Components['eventWrapper'] = (props) => {
         ?.split('<br>')
         .map((text) => <Typography key={text}>{text}</Typography>);
 
-    return <Popover popoverContent={popoverContent}>{children}</Popover>;
+    return (
+        <Popover
+            mode="hover"
+            popoverContent={popoverContent}
+            anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'center'
+            }}
+            transformOrigin={{
+                vertical: 'center',
+                horizontal: 'center'
+            }}
+        >
+            {children}
+        </Popover>
+    );
 };
 
 const Home: React.FC = () => (

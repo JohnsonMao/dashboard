@@ -1,27 +1,39 @@
 import { useState } from 'react';
+
+/* Mui */
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
-import RightIcon from '@mui/icons-material/ChevronRightRounded';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+/* Icon */
+import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import LogoutIcon from '@mui/icons-material/LogoutRounded';
+import PersonIcon from '@mui/icons-material/PersonRounded';
 
+/* Context */
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useMenuContext } from '../contexts/MenuContext';
+
+const rotateSX = (isRight: boolean) => ({
+    transform: `rotate(${isRight ? 0 : -90}deg)`,
+    transition: 'transform .25s'
+});
 
 const Header: React.FC = () => {
     const theme = useTheme();
 
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
     const { toggleColorMode } = useThemeContext();
     const { open, toggleMenu } = useMenuContext();
+
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -32,55 +44,74 @@ const Header: React.FC = () => {
     };
 
     return (
-        <AppBar position="sticky" sx={(t) => ({ zIndex: t.zIndex.drawer + 1 })}>
-            <Toolbar sx={{ justifyContent: 'space-between' }}>
-                <Typography>Logo</Typography>
+        <AppBar position="fixed" sx={(t) => ({ zIndex: t.zIndex.drawer + 1 })}>
+            <Toolbar>
+                <Typography sx={{ flex: 1 }}>Logo</Typography>
+                <IconButton
+                    onClick={toggleColorMode}
+                    color="inherit"
+                    size="large"
+                >
+                    {theme.palette.mode === 'dark' ? (
+                        <Brightness7Icon />
+                    ) : (
+                        <Brightness4Icon />
+                    )}
+                </IconButton>
                 <Box
                     sx={{
                         display: { xs: 'none', md: 'flex' },
                         justifyContent: 'space-between',
-                        alignItems: 'center',
-                        gap: 2
+                        alignItems: 'center'
                     }}
                 >
-                    <Typography>現在狀態：上班</Typography>
+                    <Button color="inherit" sx={{ fontWeight: 'bold' }}>
+                        現在狀態：上班
+                    </Button>
                     <Box>
-                        <Typography onClick={handleOpenUserMenu}>
+                        <Button color="inherit" onClick={handleOpenUserMenu}>
+                            <PersonIcon />
                             johnson.mao
-                        </Typography>
+                            <DownIcon sx={rotateSX(!!anchorElUser)} />
+                        </Button>
                         <Menu
                             id="menu-appbar"
-                            anchorEl={anchorElUser}
                             open={!!anchorElUser}
+                            anchorEl={anchorElUser}
                             onClose={handleCloseUserMenu}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center'
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center'
+                            }}
                         >
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem
+                                onClick={handleCloseUserMenu}
+                                sx={{ flexDirection: 'column' }}
+                            >
                                 <Typography>偏好設定</Typography>
+                                <Typography variant="caption">
+                                    個人化設定
+                                </Typography>
                             </MenuItem>
                         </Menu>
                     </Box>
-                    <IconButton onClick={toggleColorMode} color="inherit">
-                        {theme.palette.mode === 'dark' ? (
-                            <Brightness7Icon />
-                        ) : (
-                            <Brightness4Icon />
-                        )}
-                    </IconButton>
-                    <Button variant="contained" color="secondary">
+                    <Button color="inherit" sx={{ fontWeight: 'bold' }}>
+                        <LogoutIcon />
                         登出
                     </Button>
                 </Box>
-                <Box sx={{ display: { sm: 'block', md: 'none' } }}>
-                    <IconButton
-                        onClick={toggleMenu}
-                        color="inherit"
-                        size="large"
-                    >
-                        <RightIcon
-                            sx={{ transform: `rotate(${open ? 180 : 0}deg)` }}
-                        />
-                    </IconButton>
-                </Box>
+                <IconButton
+                    onClick={toggleMenu}
+                    color="inherit"
+                    size="large"
+                    sx={{ display: { sm: 'inline-flex', md: 'none' } }}
+                >
+                    <DownIcon sx={rotateSX(open)} />
+                </IconButton>
             </Toolbar>
         </AppBar>
     );
