@@ -2,14 +2,12 @@ import React from 'react';
 import Paper from '@mui/material/Paper';
 import MuiTable from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import ExcelJs from 'exceljs';
+
+import TableCell from './TableCell';
 
 interface Column {
     id: 'name' | 'code' | 'population' | 'size' | 'density';
@@ -53,7 +51,12 @@ interface Data {
     density: number;
 }
 
-function createData(name: string, code: string, population: number, size: number): Data {
+function createData(
+    name: string,
+    code: string,
+    population: number,
+    size: number
+): Data {
     const density = population / size;
     return { name, code, population, size, density };
 }
@@ -76,7 +79,7 @@ const rows = [
     createData('Brazil', 'BR', 210147125, 8515767)
 ];
 
-const Table = () => {
+const Table: React.FC = (props) => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -84,40 +87,11 @@ const Table = () => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-    };
-
-    const handleClick = () => {
-        const workbook = new ExcelJs.Workbook();
-        const sheet = workbook.addWorksheet('測試工作表名稱');
-
-        sheet.properties.tabColor = { argb: 'FFFF8888' };
-        sheet.addTable({
-            name: 'mao',
-            ref: 'A1',
-            columns: columns.map((column) => ({ name: column.label })),
-            rows: rows.map((row) => [row.name, row.code, row.population, row.size, row.density])
-        });
-        sheet.getCell('A2').fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'FF0000FF' }
-        };
-        sheet.getRow(3).fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'FF00FF00' }
-        };
-
-        workbook.xlsx.writeBuffer().then((content) => {
-            const link = document.createElement('a');
-            const blobData = new Blob([content]);
-            link.download = '測試試算表.xlsx';
-            link.href = URL.createObjectURL(blobData);
-            link.click();
-        });
     };
 
     return (
@@ -127,29 +101,47 @@ const Table = () => {
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
+                                // <TableCell
+                                //     key={column.id}
+                                //     align={column.align}
+                                //     style={{ minWidth: column.minWidth }}
+                                // >
+                                //     {column.label}
+                                // </TableCell>
                                 <TableCell
                                     key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                >
-                                    {column.label}
-                                </TableCell>
+                                    column={column}
+                                    value={column.label}
+                                />
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                            )
                             .map((row) => (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                <TableRow
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    key={row.code}
+                                >
                                     {columns.map((column) => {
                                         const value = row[column.id];
                                         return (
-                                            <TableCell key={column.id} align={column.align}>
-                                                {column.format && typeof value === 'number'
-                                                    ? column.format(value)
-                                                    : value}
-                                            </TableCell>
+                                            // <TableCell key={column.id} align={column.align}>
+                                            //     {column.format && typeof value === 'number'
+                                            //         ? column.format(value)
+                                            //         : value}
+                                            // </TableCell>
+                                            <TableCell
+                                                key={column.id}
+                                                column={column}
+                                                value={value}
+                                            />
                                         );
                                     })}
                                 </TableRow>
@@ -166,11 +158,6 @@ const Table = () => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            <Box display="flex" justifyContent="flex-end">
-                <Button variant="contained" onClick={handleClick}>
-                    下載
-                </Button>
-            </Box>
         </Paper>
     );
 };

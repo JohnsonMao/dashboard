@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 /* Mui */
-import { styled, Theme, CSSObject } from '@mui/material/styles';
+import { styled, Theme, CSSObject, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
@@ -11,6 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import Toolbar from '@mui/material/Toolbar';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 /* Icon */
 import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
@@ -147,6 +148,8 @@ const MenuList: React.FC<{ children?: React.ReactNode }> = (props) => {
 };
 
 const ResponsiveDrawer: React.FC = () => {
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const { open, toggleMenu } = useMenuContext();
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -156,64 +159,69 @@ const ResponsiveDrawer: React.FC = () => {
 
     return (
         <Box component="nav">
-            {/* 手機板 */}
-            <Drawer
-                variant="temporary"
-                anchor="top"
-                open={open}
-                onClose={toggleMenu}
-                ModalProps={{
-                    keepMounted: true // Better open performance on mobile.
-                }}
-                sx={{
-                    display: { xs: 'block', md: 'none' },
-                    '& .MuiDrawer-paper': {
-                        boxSizing: 'border-box'
-                    }
-                }}
-            >
-                <Toolbar />
-                <MenuList>
-                    <ListItemButton>
-                        <ListItemText primary="現在狀態：上班" />
-                    </ListItemButton>
-                    <ListItemButton onClick={handleUserMenu}>
-                        <PersonIcon />
-                        <ListItemText primary="johnson.mao" />
-                        <DownIcon sx={rotateSX(!!anchorElUser)} />
-                    </ListItemButton>
-                    <Collapse in={!!anchorElUser} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 4 }}>
-                                <ListItemText primary="偏好設定" />
-                            </ListItemButton>
-                        </List>
-                    </Collapse>
-                    <ListItemButton>
-                        <LogoutIcon />
-                        <ListItemText primary="登出" />
-                    </ListItemButton>
-                </MenuList>
-            </Drawer>
-            {/* 電腦板 */}
-            <DasktopDrawer variant="permanent" open={open}>
-                <Toolbar />
-                <MenuList />
-                <Button
-                    onClick={toggleMenu}
-                    sx={{
-                        position: 'absolute',
-                        bottom: 0,
-                        p: 1
+            {isDesktop ? (
+                <DasktopDrawer variant="permanent" open={open}>
+                    <Toolbar />
+                    <MenuList />
+                    <Button
+                        onClick={toggleMenu}
+                        sx={{
+                            position: 'absolute',
+                            bottom: 0,
+                            p: 1
+                        }}
+                        color="inherit"
+                        fullWidth
+                    >
+                        <DownIcon
+                            sx={{ transform: `rotate(${open ? 90 : -90}deg)` }}
+                        />
+                    </Button>
+                </DasktopDrawer>
+            ) : (
+                <Drawer
+                    variant="temporary"
+                    anchor="top"
+                    open={open}
+                    onClose={toggleMenu}
+                    ModalProps={{
+                        keepMounted: true // Better open performance on mobile.
                     }}
-                    color="inherit"
-                    fullWidth
+                    sx={{
+                        display: { xs: 'block', md: 'none' },
+                        '& .MuiDrawer-paper': {
+                            boxSizing: 'border-box'
+                        }
+                    }}
                 >
-                    <DownIcon
-                        sx={{ transform: `rotate(${open ? 90 : -90}deg)` }}
-                    />
-                </Button>
-            </DasktopDrawer>
+                    <Toolbar />
+                    <MenuList>
+                        <ListItemButton>
+                            <ListItemText primary="現在狀態：上班" />
+                        </ListItemButton>
+                        <ListItemButton onClick={handleUserMenu}>
+                            <PersonIcon />
+                            <ListItemText primary="johnson.mao" />
+                            <DownIcon sx={rotateSX(!!anchorElUser)} />
+                        </ListItemButton>
+                        <Collapse
+                            in={!!anchorElUser}
+                            timeout="auto"
+                            unmountOnExit
+                        >
+                            <List component="div" disablePadding>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemText primary="偏好設定" />
+                                </ListItemButton>
+                            </List>
+                        </Collapse>
+                        <ListItemButton>
+                            <LogoutIcon />
+                            <ListItemText primary="登出" />
+                        </ListItemButton>
+                    </MenuList>
+                </Drawer>
+            )}
         </Box>
     );
 };

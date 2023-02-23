@@ -38,14 +38,7 @@
         "implicit-arrow-linebreak": "off",
         "comma-dangle": ["error", "never"],
         "indent": ["error", 4, { "SwitchCase": 1 }],
-        "object-curly-newline": [
-            "error",
-            {
-                "ObjectPattern": { "multiline": true },
-                "ImportDeclaration": { "multiline": true, "minProperties": 5 },
-                "ExportDeclaration": { "multiline": true, "minProperties": 5 }
-            }
-        ]
+        "object-curly-newline": ["off"]
     },
     "settings": {
         "import/resolver": {
