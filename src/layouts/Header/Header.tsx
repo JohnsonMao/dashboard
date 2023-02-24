@@ -19,8 +19,8 @@ import LogoutIcon from '@mui/icons-material/LogoutRounded';
 import PersonIcon from '@mui/icons-material/PersonRounded';
 
 /* Context */
-import { useThemeContext } from '../contexts/ThemeContext';
-import { useMenuContext } from '../contexts/MenuContext';
+import { useThemeContext } from '@/contexts/ThemeContext';
+import { useSidebarContext } from '@/contexts/SidebarContext';
 
 const rotateSX = (isRight: boolean) => ({
     transform: `rotate(${isRight ? 0 : -90}deg)`,
@@ -31,7 +31,7 @@ const Header: React.FC = () => {
     const theme = useTheme();
 
     const { toggleColorMode } = useThemeContext();
-    const { open, toggleMenu } = useMenuContext();
+    const { open, toggleSidebar } = useSidebarContext();
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -105,7 +105,7 @@ const Header: React.FC = () => {
                     </Button>
                 </Box>
                 <IconButton
-                    onClick={toggleMenu}
+                    onClick={toggleSidebar}
                     color="inherit"
                     size="large"
                     sx={{ display: { sm: 'inline-flex', md: 'none' } }}

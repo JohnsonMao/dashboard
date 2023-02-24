@@ -40,6 +40,16 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = (props) => {
                         main: blueGrey[900]
                     }
                 },
+                typography: {
+                    fontFamily: [
+                        '-apple-system',
+                        'BlinkMacSystemFont',
+                        '"Segoe UI"',
+                        '"Noto Sans TC"',
+                        'Roboto',
+                        'sans-serif'
+                    ].join(',')
+                },
                 components: {
                     MuiUseMediaQuery: {
                         defaultProps: {

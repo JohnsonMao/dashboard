@@ -6,7 +6,7 @@ import {
     Components
 } from 'react-big-calendar';
 import Typography from '@mui/material/Typography';
-import format from 'date-fns/format';
+import dayjs from 'dayjs';
 
 import Calendar from '../components/Calendar';
 import Popover from '../components/Popover';
@@ -47,12 +47,12 @@ const customEventPropGetter: EventPropGetter<CalendarEvent> = (event) => {
 };
 
 const eventMap = events.reduce(
-    (o, d) => (d.start ? o.set(format(d.start, 'yyyy/MM/dd'), d) : o),
+    (o, d) => (d.start ? o.set(dayjs(d.start).format('YYYY/MM/DD'), d) : o),
     new Map<string, CalendarEvent>()
 );
 
 const customDayPropGetter: DayPropGetter = (date) => {
-    const e = eventMap.get(format(date, 'yyyy/MM/dd'));
+    const e = eventMap.get(dayjs(date).format('YYYY/MM/DD'));
 
     if (e?.allDay) {
         switch (e.type) {

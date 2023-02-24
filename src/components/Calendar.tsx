@@ -4,27 +4,16 @@ import { useState, useEffect } from 'react';
 import {
     Calendar as ReactBigCalendar,
     CalendarProps,
-    dateFnsLocalizer,
+    dayjsLocalizer,
     Views,
     View
 } from 'react-big-calendar';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import zhTW from 'date-fns/locale/zh-TW';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-tw';
 
-const locales = {
-    'zh-TW': zhTW
-};
+dayjs.locale('zh-tw');
 
-const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    startOfWeek,
-    getDay: () => 0,
-    locales
-});
-
+const localizer = dayjsLocalizer(dayjs);
 const message = {
     today: '今天',
     previous: '◀',
@@ -45,7 +34,9 @@ const breakPoint = (window: Window) => window.innerWidth < 600;
 
 const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
     const [isMobile, setIsMobile] = useState(breakPoint(window));
-    const [view, setView] = useState<View>(isMobile ? Views.AGENDA : Views.MONTH);
+    const [view, setView] = useState<View>(
+        isMobile ? Views.AGENDA : Views.MONTH
+    );
     const views = isMobile
         ? [Views.AGENDA]
         : [Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA];
@@ -74,7 +65,7 @@ const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
             view={view}
             views={views}
             onView={handleView}
-            style={{ height: 'calc(100vh - 100px)' }}
+            style={{ height: 'calc(100vh - 112px)' }}
             popup
             {...props}
         />
