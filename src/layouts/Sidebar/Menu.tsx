@@ -48,7 +48,10 @@ const Menu: React.FC<{ children?: React.ReactNode }> = (props) => {
             sx={{
                 maxHeight: 'calc(100vh - 112.5px)',
                 overflowY: 'overlay',
-                overflowX: 'hidden'
+                overflowX: 'hidden',
+                '& .active': {
+                    background: 'rgba(0, 0, 0, 0.12)'
+                }
             }}
         >
             {sidebar.map((page, index) => (

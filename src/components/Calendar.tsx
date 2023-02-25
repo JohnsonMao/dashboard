@@ -30,7 +30,7 @@ const message = {
     noEventsInRange: '目前無活動'
 };
 
-const breakPoint = (window: Window) => window.innerWidth < 600;
+const breakPoint = (window: Window) => window.innerWidth < 620;
 
 const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
     const [isMobile, setIsMobile] = useState(breakPoint(window));

@@ -1,6 +1,8 @@
 import React from 'react';
 import Paper from '@mui/material/Paper';
-import MuiTable from '@mui/material/Table';
+
+/* Mui */
+import MuiTable, { TableProps as MuiTableProps } from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -79,7 +81,12 @@ const rows = [
     createData('Brazil', 'BR', 210147125, 8515767)
 ];
 
-const Table: React.FC = (props) => {
+export interface TableProps extends MuiTableProps {
+    headers?: React.ReactNode;
+    children?: React.ReactNode;
+}
+
+const Table: React.FC<TableProps> = (props) => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

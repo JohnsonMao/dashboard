@@ -48,7 +48,10 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = (props) => {
                         '"Noto Sans TC"',
                         'Roboto',
                         'sans-serif'
-                    ].join(',')
+                    ].join(','),
+                    button: {
+                        textTransform: 'none'
+                    }
                 },
                 components: {
                     MuiUseMediaQuery: {
