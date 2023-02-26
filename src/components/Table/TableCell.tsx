@@ -1,20 +1,21 @@
 import React from 'react';
+
+/* Mui */
 import MuiTableCell, {
     TableCellProps as MuiTableCellProps
 } from '@mui/material/TableCell';
 
 export interface TableCellProps extends MuiTableCellProps {
-    column?: any;
-    value?: any;
+    value?: React.ReactNode;
+    format?: (value: TableCellProps['value']) => React.ReactNode;
 }
 
-const TableCell: React.FC<TableCellProps> = (props) => {
-    const { column, value } = props;
+const TableCell = <T extends TableCellProps>(props: T) => {
+    const { format, value, ...restProps } = props;
+
     return (
-        <MuiTableCell key={column.id} align={column.align}>
-            {column.format && typeof value === 'number'
-                ? column.format(value)
-                : value}
+        <MuiTableCell {...restProps}>
+            {typeof format === 'function' ? format(value) : value}
         </MuiTableCell>
     );
 };

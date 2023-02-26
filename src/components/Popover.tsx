@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 /* Mui */
+import Box from '@mui/material/Box';
 import MuiPopover, {
     PopoverProps as MuiPopoverProps
 } from '@mui/material/Popover';
-import Box from '@mui/material/Box';
 
 export interface PopoverProps extends Partial<MuiPopoverProps> {
     mode: 'hover' | 'click';

@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import Box from '@mui/material/Box';
 
-import Tabs from '../components/Tabs';
-import Table from '../components/Table';
+import Tabs from '@/components/Tabs';
+import Table from '@/components/Table';
 
 enum announceType {
     '其他',

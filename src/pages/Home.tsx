@@ -8,10 +8,10 @@ import {
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 
-import Calendar from '../components/Calendar';
-import Popover from '../components/Popover';
+import Calendar from '@/components/Calendar';
+import Popover from '@/components/Popover';
 
-import eventJson from '../assets/mocks/calendar.json';
+import eventJson from '@/assets/mocks/calendar.json';
 
 /**
  * 行事曆活動 API 的格式
