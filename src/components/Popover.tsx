@@ -6,14 +6,13 @@ import MuiPopover, {
     PopoverProps as MuiPopoverProps
 } from '@mui/material/Popover';
 
-export interface PopoverProps extends Partial<MuiPopoverProps> {
+export type PopoverProps = {
     mode: 'hover' | 'click';
-    popoverContent: React.ReactNode;
-    children: React.ReactNode;
-}
+    trigger: React.ReactNode;
+} & Partial<MuiPopoverProps>;
 
 const Popover: React.FC<PopoverProps> = (props) => {
-    const { children, popoverContent, mode, ...restProps } = props;
+    const { trigger, mode, ...restProps } = props;
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -37,19 +36,15 @@ const Popover: React.FC<PopoverProps> = (props) => {
 
     return (
         <Box>
-            <Box {...(isClickMode ? clickMode : hoverMode)}>{children}</Box>
-            {popoverContent && (
-                <MuiPopover
-                    sx={{ pointerEvents: isClickMode ? 'auto' : 'none' }}
-                    open={!!anchorEl}
-                    anchorEl={anchorEl}
-                    onClose={handlePopoverClose}
-                    disableRestoreFocus
-                    {...restProps}
-                >
-                    <Box sx={{ p: 1 }}>{popoverContent}</Box>
-                </MuiPopover>
-            )}
+            <Box {...(isClickMode ? clickMode : hoverMode)}>{trigger}</Box>
+            <MuiPopover
+                sx={{ pointerEvents: isClickMode ? 'auto' : 'none' }}
+                open={!!anchorEl}
+                anchorEl={anchorEl}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+                {...restProps}
+            />
         </Box>
     );
 };

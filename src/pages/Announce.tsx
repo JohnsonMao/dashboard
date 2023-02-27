@@ -1,7 +1,11 @@
 import { useState } from 'react';
 
+import Paper from '@mui/material/Paper';
+
 import Tabs from '@/components/Tabs';
 import Table from '@/components/Table';
+
+import { headers, data } from '@/assets/mocks/table';
 
 enum announceType {
     '其他',
@@ -37,12 +41,20 @@ const Announce: React.FC = () => {
     };
 
     return (
-        <Tabs value={value} tabs={tabs} onChange={handleChange} sx={{ mt: -2 }}>
-            {/* {tabs.map((tab) => (
-                <Box key={tab.value}>{value === tab.value && tab.label}</Box>
-            ))} */}
-            <Table />
-        </Tabs>
+        <Paper>
+            <Tabs
+                value={value}
+                tabs={tabs}
+                onChange={handleChange}
+            >
+                <Table
+                    pk="code"
+                    headers={headers}
+                    data={data}
+                    hasPagination
+                />
+            </Tabs>
+        </Paper>
     );
 };
 

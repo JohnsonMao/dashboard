@@ -1,16 +1,14 @@
-import React from 'react';
-
 /* Mui */
 import MuiTableCell, {
     TableCellProps as MuiTableCellProps
 } from '@mui/material/TableCell';
 
-export interface TableCellProps extends MuiTableCellProps {
+export type TableCellProps = {
     value?: React.ReactNode;
     format?: (value: TableCellProps['value']) => React.ReactNode;
-}
+} & MuiTableCellProps;
 
-const TableCell = <T extends TableCellProps>(props: T) => {
+const TableCell: React.FC<TableCellProps> = (props) => {
     const { format, value, ...restProps } = props;
 
     return (

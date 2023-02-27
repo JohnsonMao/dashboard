@@ -5,7 +5,11 @@ import {
     EventWrapperProps,
     Components
 } from 'react-big-calendar';
+
+/* Mui */
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+
 import dayjs from 'dayjs';
 
 import Calendar from '@/components/Calendar';
@@ -19,7 +23,6 @@ import eventJson from '@/assets/mocks/calendar.json';
  * @property {string | null}        CalendarEvent.note          - 備註
  * @property {string | null}        CalendarEvent.description   - 活動描述
  */
-
 export interface CalendarEvent extends Event {
     type?: number | null;
     note?: string | null;
@@ -64,26 +67,24 @@ const customDayPropGetter: DayPropGetter = (date) => {
         }
     }
     if (date.getDay() === 0 || date.getDay() === 6) {
-        return {
-            className: 'weekend-color'
-        };
+        return { className: 'weekend-color' };
     }
     return {};
 };
 
 const eventWrapper: Components['eventWrapper'] = (props) => {
     const { event, children } = props as EventWrapperProps<CalendarEvent> & {
-        children: React.ReactNode;
+        children: JSX.Element;
     };
 
     const popoverContent = event.note
         ?.split('<br>')
         .map((text) => <Typography key={text}>{text}</Typography>);
 
-    return (
+    return event.note ? (
         <Popover
             mode="hover"
-            popoverContent={popoverContent}
+            trigger={children}
             anchorOrigin={{
                 vertical: 'center',
                 horizontal: 'center'
@@ -93,8 +94,10 @@ const eventWrapper: Components['eventWrapper'] = (props) => {
                 horizontal: 'center'
             }}
         >
-            {children}
+            <Box sx={{ p: 1 }}>{popoverContent}</Box>
         </Popover>
+    ) : (
+        children
     );
 };
 

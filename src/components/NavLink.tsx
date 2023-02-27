@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import { NavLink as RouterLink, NavLinkProps } from 'react-router-dom';
 
 /* Mui */
@@ -12,4 +12,4 @@ const NavLink = forwardRef<HTMLAnchorElement, LinkProps & NavLinkProps>(
 
 NavLink.displayName = 'NavLink';
 
-export default NavLink;
+export default memo(NavLink);

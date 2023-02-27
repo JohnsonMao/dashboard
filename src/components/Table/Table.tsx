@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, memo } from 'react';
 import Paper from '@mui/material/Paper';
 
 /* Mui */
@@ -7,56 +7,22 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
 
-import TableCell, { TableCellProps } from './TableCell';
+import TableRow, { Header } from './TableRow';
 
-import rows from '@/assets/mocks/table.json';
+type PrimaryKey = string | number;
 
-interface Column extends TableCellProps {
-    id: 'name' | 'code' | 'population' | 'size' | 'density';
-    label: string;
-    minWidth?: number;
-    align?: 'right';
-    // format?: (value: number) => string;
-}
-
-const columns: readonly Column[] = [
-    { id: 'name', label: 'Name', minWidth: 120 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 80 },
-    {
-        id: 'population',
-        label: 'Population',
-        minWidth: 120,
-        align: 'right',
-        format: (value) =>
-            typeof value === 'number' && value.toLocaleString('en-US')
-    },
-    {
-        id: 'size',
-        label: 'Size\u00a0(km\u00b2)',
-        minWidth: 120,
-        align: 'right',
-        format: (value) =>
-            typeof value === 'number' && value.toLocaleString('en-US')
-    },
-    {
-        id: 'density',
-        label: 'Density',
-        minWidth: 120,
-        align: 'right',
-        format: (value) => typeof value === 'number' && value.toFixed(2)
-    }
-];
-
-export interface TableProps extends MuiTableProps {
-    headers?: React.ReactNode;
-    children?: React.ReactNode;
-}
+export type TableProps<T = Record<string, string | number>> = {
+    pk: PrimaryKey;
+    headers: Header<T>[];
+    data: T[];
+    hasPagination?: boolean;
+} & MuiTableProps;
 
 const Table: React.FC<TableProps> = (props) => {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const { headers, data, pk } = props;
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -74,39 +40,16 @@ const Table: React.FC<TableProps> = (props) => {
             <TableContainer>
                 <MuiTable stickyHeader>
                     <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    value={column.label}
-                                />
-                            ))}
-                        </TableRow>
+                        <TableRow headers={headers} isHeaders />
                     </TableHead>
                     <TableBody>
-                        {rows
+                        {data
                             .slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
                             )
                             .map((row) => (
-                                <TableRow
-                                    hover
-                                    role="checkbox"
-                                    tabIndex={-1}
-                                    key={row.code}
-                                >
-                                    {columns.map((column) => {
-                                        const value = row[column.id];
-                                        return (
-                                            <TableCell
-                                                key={column.id}
-                                                format={column.format}
-                                                value={value}
-                                            />
-                                        );
-                                    })}
-                                </TableRow>
+                                <TableRow key={row[pk]} headers={headers} data={row} />
                             ))}
                     </TableBody>
                 </MuiTable>
@@ -114,7 +57,7 @@ const Table: React.FC<TableProps> = (props) => {
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={rows.length}
+                count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -124,4 +67,4 @@ const Table: React.FC<TableProps> = (props) => {
     );
 };
 
-export default Table;
+export default memo(Table);

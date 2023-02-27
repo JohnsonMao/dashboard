@@ -3,10 +3,10 @@ import Box from '@mui/material/Box';
 import MuiTabs, { TabsProps as MuiTabsProps } from '@mui/material/Tabs';
 import Tab, { TabProps as MuiTabProps } from '@mui/material/Tab';
 
-interface TabsProps extends MuiTabsProps {
+export type TabsProps = {
     value: string | number;
     tabs: MuiTabProps[];
-}
+} & MuiTabsProps;
 
 const Tabs: React.FC<TabsProps> = (props) => {
     const { children, tabs, ...restProps } = props;

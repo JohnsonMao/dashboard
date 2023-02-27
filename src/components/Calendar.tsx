@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
 /* Calendar dependencies */
 import {
@@ -72,4 +72,4 @@ const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
     );
 };
 
-export default Calendar;
+export default memo(Calendar);
