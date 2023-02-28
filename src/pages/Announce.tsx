@@ -33,7 +33,7 @@ const tabs = [
     }
 ];
 
-const Announce: React.FC = () => {
+function Announce() {
     const [value, setValue] = useState(announceType['全部']);
 
     const handleChange = (e: React.SyntheticEvent, v: announceType) => {
@@ -56,6 +56,6 @@ const Announce: React.FC = () => {
             </Tabs>
         </Paper>
     );
-};
+}
 
 export default Announce;

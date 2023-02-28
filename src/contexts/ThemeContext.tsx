@@ -15,7 +15,7 @@ export const useThemeContext = () => {
     return ctx;
 };
 
-export const ThemeProvider: React.FC<React.PropsWithChildren> = (props) => {
+export function ThemeProvider(props: React.PropsWithChildren) {
     const { children } = props;
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const [mode, setMode] = useState<'light' | 'dark'>(
@@ -72,4 +72,4 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = (props) => {
             </MuiThemeProvider>
         </ThemeContext.Provider>
     );
-};
+}

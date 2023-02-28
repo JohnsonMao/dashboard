@@ -24,7 +24,7 @@ const rotateSX = (isRight: boolean) => ({
     transition: 'transform .25s'
 });
 
-const Menu: React.FC<{ children?: React.ReactNode }> = (props) => {
+function Menu(props: React.PropsWithChildren) {
     const { children } = props;
     const { open, toggleSidebar } = useSidebarContext();
     const [childOpen, setChildOpen] = useState<boolean[]>([]);
@@ -97,6 +97,6 @@ const Menu: React.FC<{ children?: React.ReactNode }> = (props) => {
             {children}
         </List>
     );
-};
+}
 
 export default Menu;

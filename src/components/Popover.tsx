@@ -11,7 +11,7 @@ export type PopoverProps = {
     trigger: React.ReactNode;
 } & Partial<MuiPopoverProps>;
 
-const Popover: React.FC<PopoverProps> = (props) => {
+function Popover(props: PopoverProps) {
     const { trigger, mode, ...restProps } = props;
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -47,6 +47,6 @@ const Popover: React.FC<PopoverProps> = (props) => {
             />
         </Box>
     );
-};
+}
 
 export default Popover;

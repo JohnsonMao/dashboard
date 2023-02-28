@@ -8,7 +8,7 @@ export type TabsProps = {
     tabs: MuiTabProps[];
 } & MuiTabsProps;
 
-const Tabs: React.FC<TabsProps> = (props) => {
+function Tabs(props: TabsProps) {
     const { children, tabs, ...restProps } = props;
 
     return (
@@ -23,6 +23,6 @@ const Tabs: React.FC<TabsProps> = (props) => {
             {children}
         </Box>
     );
-};
+}
 
 export default Tabs;

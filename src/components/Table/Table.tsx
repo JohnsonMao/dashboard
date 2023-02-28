@@ -1,5 +1,4 @@
-import { useState, memo } from 'react';
-import Paper from '@mui/material/Paper';
+import { useState } from 'react';
 
 /* Mui */
 import MuiTable, { TableProps as MuiTableProps } from '@mui/material/Table';
@@ -8,21 +7,34 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 
+import { genericMemo } from '@/utils/generic';
 import TableRow, { Header } from './TableRow';
 
-type PrimaryKey = string | number;
-
-export type TableProps<T = Record<string, string | number>> = {
-    pk: PrimaryKey;
+export type TableProps<T> = {
+    /** 判別每個 data 唯一 key */
+    pk: keyof T;
     headers: Header<T>[];
-    data: T[];
+    data: (T & Record<TableProps<T>['pk'], string>)[];
     hasPagination?: boolean;
+    rowsPerPageOptions?: number[];
+    total?: number;
 } & MuiTableProps;
 
-const Table: React.FC<TableProps> = (props) => {
-    const { headers, data, pk } = props;
+function Table<T>(props: TableProps<T>) {
+    const {
+        headers,
+        data,
+        pk,
+        hasPagination,
+        total,
+        rowsPerPageOptions,
+        ...restProps
+    } = props;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const showData = hasPagination
+        ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        : data;
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -36,35 +48,40 @@ const Table: React.FC<TableProps> = (props) => {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <>
             <TableContainer>
-                <MuiTable stickyHeader>
+                <MuiTable stickyHeader {...restProps}>
                     <TableHead>
                         <TableRow headers={headers} isHeaders />
                     </TableHead>
                     <TableBody>
-                        {data
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row) => (
-                                <TableRow key={row[pk]} headers={headers} data={row} />
-                            ))}
+                        {showData.map((row) => (
+                            <TableRow
+                                key={row[pk]}
+                                headers={headers}
+                                row={row}
+                            />
+                        ))}
                     </TableBody>
                 </MuiTable>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </Paper>
+            {hasPagination && (
+                <TablePagination
+                    component="div"
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    count={total != null ? total : data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            )}
+        </>
     );
+}
+
+Table.defaultProps = {
+    rowsPerPageOptions: [10, 25, 100]
 };
 
-export default memo(Table);
+export default genericMemo(Table);

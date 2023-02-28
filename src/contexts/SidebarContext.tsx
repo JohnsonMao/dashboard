@@ -8,7 +8,7 @@ export const useSidebarContext = () => {
     return ctx;
 };
 
-export const SidebarProvider: React.FC<React.PropsWithChildren> = (props) => {
+export function SidebarProvider(props: React.PropsWithChildren) {
     const { children } = props;
     const isDasktop = window.innerWidth >= 900;
     const [open, setOpen] = useState(isDasktop);
@@ -28,4 +28,4 @@ export const SidebarProvider: React.FC<React.PropsWithChildren> = (props) => {
             {children}
         </SidebarContext.Provider>
     );
-};
+}

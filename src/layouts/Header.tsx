@@ -27,7 +27,7 @@ const rotateSX = (isRight: boolean) => ({
     transition: 'transform .25s'
 });
 
-const Header: React.FC = () => {
+function Header() {
     const theme = useTheme();
 
     const { toggleColorMode } = useThemeContext();
@@ -115,6 +115,6 @@ const Header: React.FC = () => {
             </Toolbar>
         </AppBar>
     );
-};
+}
 
 export default Header;

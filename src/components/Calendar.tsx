@@ -32,7 +32,7 @@ const message = {
 
 const breakPoint = (window: Window) => window.innerWidth < 620;
 
-const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
+function Calendar(props: Partial<CalendarProps>) {
     const [isMobile, setIsMobile] = useState(breakPoint(window));
     const [view, setView] = useState<View>(
         isMobile ? Views.AGENDA : Views.MONTH
@@ -70,6 +70,6 @@ const Calendar: React.FC<Partial<CalendarProps>> = (props) => {
             {...props}
         />
     );
-};
+}
 
 export default memo(Calendar);

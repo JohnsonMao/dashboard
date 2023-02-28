@@ -1,13 +1,5 @@
-import Table from '../components/Table';
-
-const Example: React.FC = () => {
-    const fetchDroplist = () => {
-        fetch('/api/DropList?type=slope')
-            .then((res) => res.json())
-            .then((d) => console.log(d));
-    };
-
-    return <Table />;
-};
+function Example() {
+    return <>測試</>;
+}
 
 export default Example;

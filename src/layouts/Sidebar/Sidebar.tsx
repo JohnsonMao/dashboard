@@ -69,7 +69,7 @@ const rotateSX = (isRight: boolean) => ({
     transition: 'transform .25s'
 });
 
-const Sidebar: React.FC = () => {
+function Sidebar() {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const { open, toggleSidebar } = useSidebarContext();
@@ -136,6 +136,6 @@ const Sidebar: React.FC = () => {
             </Menu>
         </Drawer>
     );
-};
+}
 
 export default Sidebar;

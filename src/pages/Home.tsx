@@ -101,13 +101,15 @@ const eventWrapper: Components['eventWrapper'] = (props) => {
     );
 };
 
-const Home: React.FC = () => (
-    <Calendar
-        events={events}
-        eventPropGetter={customEventPropGetter}
-        dayPropGetter={customDayPropGetter}
-        components={{ eventWrapper }}
-    />
-);
+function Home() {
+    return (
+        <Calendar
+            events={events}
+            eventPropGetter={customEventPropGetter}
+            dayPropGetter={customDayPropGetter}
+            components={{ eventWrapper }}
+        />
+    );
+}
 
 export default Home;

@@ -1,19 +1,20 @@
 /* Mui */
+import TableCell, { TableCellProps } from '@mui/material/TableCell';
 import MuiTableRow, {
     TableRowProps as MuiTableRowProps
 } from '@mui/material/TableRow';
 
-import TableCell, { TableCellProps } from './TableCell';
-
-export type Header<T = Record<string, unknown>> = {
+export type Header<T> = {
     key: keyof T;
     label: string;
+    value?: React.ReactNode;
+    render?: (value: Header<T>['value'], item?: T) => React.ReactNode;
 } & TableCellProps;
 
-export type TableRowProps = {
-    headers: Header[];
-    data?: Record<string, React.ReactNode>;
+export type TableRowProps<T> = {
     isHeaders?: boolean;
+    headers: Header<T>[];
+    row?: T;
 } & MuiTableRowProps;
 
 const initBodyRowProps = {
@@ -22,26 +23,26 @@ const initBodyRowProps = {
     tabIndex: -1
 };
 
-const TableRow: React.FC<TableRowProps> = (props) => {
-    const { headers, isHeaders, data, ...restProps } = props;
+function TableRow<T>(props: TableRowProps<T>) {
+    const { headers, isHeaders, row, ...restProps } = props;
     const rowProps = isHeaders ? {} : initBodyRowProps;
 
     return (
         <MuiTableRow {...rowProps} {...restProps}>
-            {headers.map((column) => {
-                const value = isHeaders ? column.label : data?.[column.key];
-                const format = isHeaders ? undefined : column.format;
+            {headers.map((header) => {
+                const value = isHeaders ? header.label : row?.[header.key];
+                const render = isHeaders ? undefined : header.render;
 
                 return (
-                    <TableCell
-                        key={column.key}
-                        format={format}
-                        value={value}
-                    />
+                    <TableCell key={header.key}>
+                        {typeof render === 'function'
+                            ? render(value, row)
+                            : value}
+                    </TableCell>
                 );
             })}
         </MuiTableRow>
     );
-};
+}
 
 export default TableRow;
