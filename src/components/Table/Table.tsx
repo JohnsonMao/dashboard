@@ -10,17 +10,19 @@ import TablePagination from '@mui/material/TablePagination';
 import { genericMemo } from '@/utils/generic';
 import TableRow, { Header } from './TableRow';
 
-export type TableProps<T> = {
-    /** 判別每個 data 唯一 key */
-    pk: keyof T;
+export type TableProps<T extends Record<keyof T, React.ReactNode>, P extends string> = {
+    /** 每筆 data 唯一 key */
+    pk: P;
     headers: Header<T>[];
-    data: (T & Record<TableProps<T>['pk'], string>)[];
+    data: (T & Record<P, string>)[];
     hasPagination?: boolean;
     rowsPerPageOptions?: number[];
     total?: number;
 } & MuiTableProps;
 
-function Table<T>(props: TableProps<T>) {
+function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
+    props: TableProps<T, P>
+) {
     const {
         headers,
         data,

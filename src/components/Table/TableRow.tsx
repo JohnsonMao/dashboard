@@ -4,18 +4,25 @@ import MuiTableRow, {
     TableRowProps as MuiTableRowProps
 } from '@mui/material/TableRow';
 
-export type Header<T> = {
-    key: keyof T;
+export type Header<T extends Record<keyof T, React.ReactNode>> = {
+    key: keyof T & string;
     label: string;
-    value?: React.ReactNode;
-    render?: (value: Header<T>['value'], item?: T) => React.ReactNode;
+    render?: (value: React.ReactNode, item?: T) => React.ReactNode;
 } & TableCellProps;
 
-export type TableRowProps<T> = {
-    isHeaders?: boolean;
+type HeaderRowProps = {
+    isHeaders: true;
+    row?: never;
+};
+
+type DataRowProps<T> = {
+    isHeaders?: false;
+    row: T;
+};
+
+export type TableRowProps<T extends Record<keyof T, React.ReactNode>> = MuiTableRowProps & {
     headers: Header<T>[];
-    row?: T;
-} & MuiTableRowProps;
+} & (HeaderRowProps | DataRowProps<T>);
 
 const initBodyRowProps = {
     hover: true,
@@ -23,14 +30,14 @@ const initBodyRowProps = {
     tabIndex: -1
 };
 
-function TableRow<T>(props: TableRowProps<T>) {
+function TableRow<T extends Record<keyof T, React.ReactNode>>(props: TableRowProps<T>) {
     const { headers, isHeaders, row, ...restProps } = props;
     const rowProps = isHeaders ? {} : initBodyRowProps;
 
     return (
         <MuiTableRow {...rowProps} {...restProps}>
             {headers.map((header) => {
-                const value = isHeaders ? header.label : row?.[header.key];
+                const value = isHeaders ? header.label : row[header.key];
                 const render = isHeaders ? undefined : header.render;
 
                 return (
