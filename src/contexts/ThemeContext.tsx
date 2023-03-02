@@ -7,13 +7,12 @@ import { blueGrey } from '@mui/material/colors';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const ThemeContext = createContext({ toggleColorMode: () => {} });
+const ThemeContext = createContext({
+    mode: 'light',
+    toggleColorMode: () => {}
+});
 
-export const useThemeContext = () => {
-    const ctx = useContext(ThemeContext);
-
-    return ctx;
-};
+export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider(props: React.PropsWithChildren) {
     const { children } = props;
@@ -24,11 +23,12 @@ export function ThemeProvider(props: React.PropsWithChildren) {
 
     const colorMode = useMemo(
         () => ({
+            mode,
             toggleColorMode: () => {
                 setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
             }
         }),
-        []
+        [mode]
     );
 
     const theme = useMemo(

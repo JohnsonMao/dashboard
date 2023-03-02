@@ -15,37 +15,38 @@ export type TableProps<T extends Record<keyof T, React.ReactNode>, P extends str
     pk: P;
     headers: Header<T>[];
     data: (T & Record<P, string>)[];
-    hasPagination?: boolean;
-    rowsPerPageOptions?: number[];
     total?: number;
+    showPagination?: boolean;
+    rowsPerPageOptions?: number[];
 } & MuiTableProps;
 
 function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
     props: TableProps<T, P>
 ) {
     const {
+        pk,
         headers,
         data,
-        pk,
-        hasPagination,
         total,
+        showPagination,
         rowsPerPageOptions,
         ...restProps
     } = props;
+
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const showData = hasPagination
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const showData = showPagination
         ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         : data;
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const handleChangePage = (e: unknown, newPage: number) => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement>
+        e: React.ChangeEvent<HTMLInputElement>
     ) => {
-        setRowsPerPage(+event.target.value);
+        setRowsPerPage(+e.target.value);
         setPage(0);
     };
 
@@ -67,15 +68,15 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
                     </TableBody>
                 </MuiTable>
             </TableContainer>
-            {hasPagination && (
+            {showPagination && (
                 <TablePagination
                     component="div"
-                    rowsPerPageOptions={rowsPerPageOptions}
                     count={total != null ? total : data.length}
-                    rowsPerPage={rowsPerPage}
                     page={page}
-                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
                     onRowsPerPageChange={handleChangeRowsPerPage}
+                    onPageChange={handleChangePage}
                 />
             )}
         </>
@@ -83,7 +84,9 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
 }
 
 Table.defaultProps = {
-    rowsPerPageOptions: [10, 25, 100]
+    total: undefined,
+    showPagination: false,
+    rowsPerPageOptions: [5, 10, 25, 100]
 };
 
 export default genericMemo(Table);

@@ -11,7 +11,7 @@ import Collapse from '@mui/material/Collapse';
 import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 /* Context */
-import { useSidebarContext } from '@/contexts/SidebarContext';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 /* Component */
 import NavLink from '@/components/NavLink';
@@ -26,7 +26,7 @@ const rotateSX = (isRight: boolean) => ({
 
 function Menu(props: React.PropsWithChildren) {
     const { children } = props;
-    const { open, toggleSidebar } = useSidebarContext();
+    const { open, toggleSidebar } = useSidebar();
     const [childOpen, setChildOpen] = useState<boolean[]>([]);
 
     const handleClick = (page: typeof sidebar[number], index?: number) => {

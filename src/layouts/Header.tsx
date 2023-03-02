@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 /* Mui */
-import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -19,8 +18,8 @@ import LogoutIcon from '@mui/icons-material/LogoutRounded';
 import PersonIcon from '@mui/icons-material/PersonRounded';
 
 /* Context */
-import { useThemeContext } from '@/contexts/ThemeContext';
-import { useSidebarContext } from '@/contexts/SidebarContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 const rotateSX = (isRight: boolean) => ({
     transform: `rotate(${isRight ? 0 : -90}deg)`,
@@ -28,10 +27,8 @@ const rotateSX = (isRight: boolean) => ({
 });
 
 function Header() {
-    const theme = useTheme();
-
-    const { toggleColorMode } = useThemeContext();
-    const { open, toggleSidebar } = useSidebarContext();
+    const { mode, toggleColorMode } = useTheme();
+    const { open, toggleSidebar } = useSidebar();
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -52,7 +49,7 @@ function Header() {
                     color="inherit"
                     size="large"
                 >
-                    {theme.palette.mode === 'dark' ? (
+                    {mode === 'dark' ? (
                         <Brightness7Icon />
                     ) : (
                         <Brightness4Icon />

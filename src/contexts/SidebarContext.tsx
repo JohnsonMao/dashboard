@@ -2,11 +2,7 @@ import { createContext, useState, useMemo, useContext } from 'react';
 
 const SidebarContext = createContext({ open: false, toggleSidebar: () => {} });
 
-export const useSidebarContext = () => {
-    const ctx = useContext(SidebarContext);
-
-    return ctx;
-};
+export const useSidebar = () => useContext(SidebarContext);
 
 export function SidebarProvider(props: React.PropsWithChildren) {
     const { children } = props;

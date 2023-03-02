@@ -51,7 +51,7 @@ function Announce() {
                     pk="code"
                     headers={headers}
                     data={data}
-                    hasPagination
+                    showPagination
                 />
             </Tabs>
         </Paper>

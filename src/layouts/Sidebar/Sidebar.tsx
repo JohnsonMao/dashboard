@@ -17,11 +17,13 @@ import LogoutIcon from '@mui/icons-material/LogoutRounded';
 import PersonIcon from '@mui/icons-material/PersonRounded';
 
 /* Context */
-import { useSidebarContext } from '@/contexts/SidebarContext';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 import Menu from './Menu';
 
 const openedMixin = (theme: Theme): CSSObject => ({
+    marginRight: -1,
+    paddingRight: 1,
     width: '200px',
     overflowX: 'hidden',
     transition: theme.transitions.create('width', {
@@ -50,6 +52,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
 const DasktopDrawer = styled(Drawer, {
     shouldForwardProp: (prop) => prop !== 'open'
 })(({ theme, open }) => ({
+    height: 0,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
@@ -72,7 +75,7 @@ const rotateSX = (isRight: boolean) => ({
 function Sidebar() {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
-    const { open, toggleSidebar } = useSidebarContext();
+    const { open, toggleSidebar } = useSidebar();
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
