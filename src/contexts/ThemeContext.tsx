@@ -3,7 +3,7 @@ import {
     createTheme,
     ThemeProvider as MuiThemeProvider
 } from '@mui/material/styles';
-import { blueGrey } from '@mui/material/colors';
+import { blue, blueGrey } from '@mui/material/colors';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -37,7 +37,7 @@ export function ThemeProvider(props: React.PropsWithChildren) {
                 palette: {
                     mode,
                     primary: {
-                        main: blueGrey[900]
+                        main: mode === 'light' ? blueGrey[800] : blue[300]
                     }
                 },
                 typography: {

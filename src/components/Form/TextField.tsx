@@ -1,17 +1,24 @@
 import { useId } from 'react';
-import MuiTextField from '@mui/material/TextField';
+import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 
-function TextField() {
+function TextField(props: TextFieldProps) {
+    const { type } = props;
     const id = useId();
 
-    return (
-        <MuiTextField
-            id={id}
-            label="Size"
-            defaultValue="Small"
-            size="small"
-        />
-    );
+    if (type === 'number') {
+        return (
+            <MuiTextField
+                id={id}
+                size="small"
+                margin="normal"
+                {...props}
+                type="text"
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9.]*' }}
+            />
+        );
+    }
+
+    return <MuiTextField id={id} size="small" margin="normal" {...props} />;
 }
 
 export default TextField;
