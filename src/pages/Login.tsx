@@ -2,7 +2,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import TextField from '@/components/Form/TextField';
+import Form from '@/components/Form/Form';
 
 function Login() {
     return (
@@ -11,11 +11,7 @@ function Login() {
                 <Typography>登入</Typography>
             </Box>
             <Box sx={{ px: 2, pb: 1 }}>
-                <TextField label="帳號" />
-                <Box />
-                <TextField label="密碼" type="password" />
-                <Box />
-                <TextField label="數字" type="number" />
+                <Form />
             </Box>
         </Paper>
     );
