@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
                     target: 'http://slopeuat.freeway.gov.tw/web',
                     changeOrigin: true,
                     secure: false,
-                    rewrite: (path) => path.replace(/^\/api/, '')
+                    rewrite: (p) => p.replace(/^\/api/, '')
                 }
             }
         },

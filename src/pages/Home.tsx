@@ -102,13 +102,73 @@ const eventWrapper: Components['eventWrapper'] = (props) => {
 };
 
 function Home() {
+    const test = async () => {
+        const eventStart = new Date('2023/3/5');
+        const eventEnd = new Date('2023/3/6');
+
+        // function start() {
+        //     gapi.client
+        //         .init({
+        //             apiKey: import.meta.env.VITE_GAPI_KEY,
+        //             clientId: import.meta.env.VITE_CALENDAR_ID,
+        //             discoveryDocs: [
+        //                 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'
+        //             ],
+        //             scope: 'https://www.googleapis.com/auth/calendar.events'
+        //         })
+        //         .then(() => {
+        //             const event = {
+        //                 summary: 'Test title',
+        //                 description: 'Test description',
+        //                 start: {
+        //                     dateTime: eventStart.toISOString(),
+        //                     timeZone: 'Asia/Taipei'
+        //                 },
+        //                 end: {
+        //                     dateTime: eventEnd.toISOString(),
+        //                     timeZone: 'Asia/Taipei'
+        //                 },
+        //                 attendees: [
+        //                     { email: 'tutelary.maomao@gmail.com' },
+        //                     { email: 'johnson.mao@yesee.com.tw' }
+        //                 ]
+        //             };
+
+        //             return gapi.client.calendar.events.insert({
+        //                 calendarId: 'primary',
+        //                 resource: event
+        //             });
+        //         })
+        //         .then(
+        //             (response) => {
+        //                 console.log(response);
+        //             },
+        //             (reason) => {
+        //                 console.log(reason);
+        //             }
+        //         );
+        // }
+        // gapi.load('client', start);
+    };
+
     return (
-        <Calendar
-            events={events}
-            eventPropGetter={customEventPropGetter}
-            dayPropGetter={customDayPropGetter}
-            components={{ eventWrapper }}
-        />
+        <>
+            <Calendar
+                events={events}
+                eventPropGetter={customEventPropGetter}
+                dayPropGetter={customDayPropGetter}
+                components={{ eventWrapper }}
+            />
+            <div
+                id="g_id_onload"
+                data-client_id={import.meta.env.VITE_CALENDAR_ID}
+                data-auto_select="true"
+                data-login_uri="http://localhost:5173/"
+            />
+            <button type="button" onClick={test}>
+                Click
+            </button>
+        </>
     );
 }
 

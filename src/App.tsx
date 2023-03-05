@@ -6,12 +6,14 @@ import router from './router';
 
 import './assets/styles/index.scss';
 
-const App = () => (
-    <ThemeProvider>
-        <SidebarProvider>
-            <RouterProvider router={router} />
-        </SidebarProvider>
-    </ThemeProvider>
-);
+function App() {
+    return (
+        <ThemeProvider>
+            <SidebarProvider>
+                <RouterProvider router={router} />
+            </SidebarProvider>
+        </ThemeProvider>
+    );
+}
 
 export default App;
