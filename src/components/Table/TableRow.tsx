@@ -20,9 +20,10 @@ type DataRowProps<T> = {
     row: T;
 };
 
-export type TableRowProps<T extends Record<keyof T, React.ReactNode>> = MuiTableRowProps & {
-    headers: Header<T>[];
-} & (HeaderRowProps | DataRowProps<T>);
+export type TableRowProps<T extends Record<keyof T, React.ReactNode>> =
+    MuiTableRowProps & {
+        headers: Header<T>[];
+    } & (HeaderRowProps | DataRowProps<T>);
 
 const initBodyRowProps = {
     hover: true,
@@ -30,7 +31,9 @@ const initBodyRowProps = {
     tabIndex: -1
 };
 
-function TableRow<T extends Record<keyof T, React.ReactNode>>(props: TableRowProps<T>) {
+function TableRow<T extends Record<keyof T, React.ReactNode>>(
+    props: TableRowProps<T>
+) {
     const { headers, isHeaders, row, ...restProps } = props;
     const rowProps = isHeaders ? {} : initBodyRowProps;
 

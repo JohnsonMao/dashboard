@@ -10,7 +10,10 @@ import TablePagination from '@mui/material/TablePagination';
 import { genericMemo } from '@/utils/generic';
 import TableRow, { Header } from './TableRow';
 
-export type TableProps<T extends Record<keyof T, React.ReactNode>, P extends string> = {
+export type TableProps<
+    T extends Record<keyof T, React.ReactNode>,
+    P extends string
+> = {
     /** 每筆 data 唯一 key */
     pk: P;
     headers: Header<T>[];

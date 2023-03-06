@@ -1,15 +1,12 @@
 import { useState } from 'react';
 
 /* Mui */
-import { styled, Theme, CSSObject, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import Toolbar from '@mui/material/Toolbar';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 /* Icon */
 import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
@@ -21,89 +18,18 @@ import { useSidebar } from '@/contexts/SidebarContext';
 
 import Menu from './Menu';
 
-const openedMixin = (theme: Theme): CSSObject => ({
-    marginRight: -1,
-    paddingRight: 1,
-    width: '200px',
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen
-    }),
-    [theme.breakpoints.up('md')]: {
-        display: 'block',
-        boxShadow: theme.shadows[2]
-    }
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-    width: '64px',
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-    }),
-    [theme.breakpoints.up('md')]: {
-        display: 'block',
-        boxShadow: theme.shadows[2]
-    }
-});
-
-const DasktopDrawer = styled(Drawer, {
-    shouldForwardProp: (prop) => prop !== 'open'
-})(({ theme, open }) => ({
-    height: 0,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    display: 'none',
-    ...(open && {
-        ...openedMixin(theme),
-        '& .MuiDrawer-paper': openedMixin(theme)
-    }),
-    ...(!open && {
-        ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme)
-    })
-}));
-
 const rotateSX = (isRight: boolean) => ({
     transform: `rotate(${isRight ? 0 : -90}deg)`,
     transition: 'transform .25s'
 });
 
 function Sidebar() {
-    const theme = useTheme();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const { open, toggleSidebar } = useSidebar();
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser((pre) => (pre ? null : event.currentTarget));
     };
-
-    if (isDesktop) {
-        return (
-            <DasktopDrawer variant="permanent" open={open}>
-                <Toolbar />
-                <Menu />
-                <Button
-                    onClick={toggleSidebar}
-                    sx={{
-                        position: 'absolute',
-                        bottom: 0,
-                        p: 1
-                    }}
-                    color="inherit"
-                    fullWidth
-                >
-                    <DownIcon
-                        sx={{ transform: `rotate(${open ? 90 : -90}deg)` }}
-                    />
-                </Button>
-            </DasktopDrawer>
-        );
-    }
 
     return (
         <Drawer
@@ -116,7 +42,7 @@ function Sidebar() {
             }}
         >
             <Toolbar />
-            <Menu>
+            <Menu open={open} toggleSidebar={toggleSidebar}>
                 <ListItemButton>
                     <ListItemText primary="現在狀態：上班" />
                 </ListItemButton>

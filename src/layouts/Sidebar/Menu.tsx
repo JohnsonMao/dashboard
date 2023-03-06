@@ -10,9 +10,6 @@ import Collapse from '@mui/material/Collapse';
 /* Icon */
 import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
-/* Context */
-import { useSidebar } from '@/contexts/SidebarContext';
-
 /* Component */
 import NavLink from '@/components/NavLink';
 
@@ -24,9 +21,14 @@ const rotateSX = (isRight: boolean) => ({
     transition: 'transform .25s'
 });
 
-function Menu(props: React.PropsWithChildren) {
-    const { children } = props;
-    const { open, toggleSidebar } = useSidebar();
+type MenuProps = {
+    open: boolean;
+    toggleSidebar: () => void;
+    children?: React.ReactNode;
+};
+
+function Menu(props: MenuProps) {
+    const { open, toggleSidebar, children } = props;
     const [childOpen, setChildOpen] = useState<boolean[]>([]);
 
     const handleClick = (page: typeof sidebar[number], index?: number) => {
@@ -98,5 +100,9 @@ function Menu(props: React.PropsWithChildren) {
         </List>
     );
 }
+
+Menu.defaultProps = {
+    children: null
+};
 
 export default Menu;

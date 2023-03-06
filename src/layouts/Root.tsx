@@ -1,15 +1,20 @@
 import { Outlet } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 import Header from './Header';
 import Sidebar from './Sidebar';
 
 function Root() {
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
     return (
         <Box sx={{ display: 'flex' }}>
             <Header />
-            <Sidebar />
+            {isDesktop ? <Sidebar.Desktop /> : <Sidebar.Mobile />}
             <Container
                 component="main"
                 sx={{
