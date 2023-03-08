@@ -5,6 +5,13 @@ import Divider from '@mui/material/Divider';
 
 import Form from '@/components/Form/Form';
 
+const initialValues = {
+    username: 'test',
+    password: '1234',
+    number: 666
+};
+const onSubmit = (values) => console.log(values);
+
 function Login() {
     return (
         <Paper sx={{ display: 'inline-block' }}>
@@ -19,7 +26,7 @@ function Login() {
             </Box>
             <Divider />
             <Box sx={{ px: 2, pb: 1 }}>
-                <Form />
+                <Form initialValues={initialValues} onSubmit={onSubmit} />
             </Box>
         </Paper>
     );

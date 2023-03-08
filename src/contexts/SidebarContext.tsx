@@ -6,8 +6,7 @@ export const useSidebar = () => useContext(SidebarContext);
 
 export function SidebarProvider(props: React.PropsWithChildren) {
     const { children } = props;
-    const isDasktop = window.innerWidth >= 900;
-    const [open, setOpen] = useState(isDasktop);
+    const [open, setOpen] = useState(false);
 
     const SidebarValue = useMemo(
         () => ({
