@@ -1,21 +1,41 @@
-import { useFormik, FormikConfig, FormikValues } from 'formik';
+import { useId } from 'react';
+import {
+    Formik,
+    Form as FormikWrapper,
+    Field,
+    FormikConfig,
+    FormikValues
+} from 'formik';
 
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import { genericMemo } from '@/utils/generic';
-import Input from './Input';
+import Input from './widgets/TextWidget';
 
 function Form<T extends FormikValues>(props: FormikConfig<T>) {
-    const formik = useFormik<T>(props);
+    const id = useId();
 
     return (
-        <Box component="form" onSubmit={formik.handleSubmit}>
-            <Input label="帳號" {...formik.getFieldProps('username')} />
-            <Input label="密碼" type="password" {...formik.getFieldProps('password')} />
-            <Input label="數字" type="number" {...formik.getFieldProps('number')} />
-            <Button type="submit">送出</Button>
-        </Box>
+        <Formik {...props}>
+            <FormikWrapper>
+                <Field as={Input} id={id} label="帳號" name="username" />
+                <Field
+                    as={Input}
+                    id={id}
+                    label="密碼"
+                    name="password"
+                    type="password"
+                />
+                <Field
+                    as={Input}
+                    id={id}
+                    label="數字"
+                    name="number"
+                    type="number"
+                />
+                <Button type="submit">送出</Button>
+            </FormikWrapper>
+        </Formik>
     );
 }
 
