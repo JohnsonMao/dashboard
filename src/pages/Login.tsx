@@ -37,11 +37,7 @@ function Login() {
             </Box>
             <Divider />
             <Box sx={{ px: 2, pb: 1 }}>
-                <Form
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validationSchema={schema}
-                />
+                <Form onSubmit={onSubmit} validationSchema={schema} />
             </Box>
         </Paper>
     );

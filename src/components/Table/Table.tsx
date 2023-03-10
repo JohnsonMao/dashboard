@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 /* Mui */
 import MuiTable, { TableProps as MuiTableProps } from '@mui/material/Table';
@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 
-import { genericMemo } from '@/utils/generic';
 import TableRow, { Header } from './TableRow';
 
 export type TableProps<
@@ -91,5 +90,7 @@ Table.defaultProps = {
     showPagination: false,
     rowsPerPageOptions: [5, 10, 25, 100]
 };
+
+const genericMemo: <T>(component: T) => T = memo;
 
 export default genericMemo(Table);
