@@ -8,11 +8,11 @@ import MuiPopover, {
 
 export type PopoverProps = {
     mode: 'hover' | 'click';
-    trigger: React.ReactNode;
+    triggerComponent: React.ReactNode;
 } & Partial<MuiPopoverProps>;
 
 function Popover(props: PopoverProps) {
-    const { trigger, mode, ...restProps } = props;
+    const { triggerComponent, mode, ...restProps } = props;
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -36,7 +36,9 @@ function Popover(props: PopoverProps) {
 
     return (
         <Box>
-            <Box {...(isClickMode ? clickMode : hoverMode)}>{trigger}</Box>
+            <Box {...(isClickMode ? clickMode : hoverMode)}>
+                {triggerComponent}
+            </Box>
             <MuiPopover
                 sx={{ pointerEvents: isClickMode ? 'auto' : 'none' }}
                 open={!!anchorEl}

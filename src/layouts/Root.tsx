@@ -12,22 +12,24 @@ function Root() {
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <Header />
-            {isDesktop ? <Sidebar.Desktop /> : <Sidebar.Mobile />}
-            <Container
-                component="main"
-                sx={{
-                    mt: 8,
-                    p: 3,
-                    flexGrow: 1,
-                    maxHeight: 'calc(100vh - 64px)',
-                    overflow: 'auto'
-                }}
-            >
-                <Outlet />
-            </Container>
-        </Box>
+        <Sidebar.Provider>
+            <Box sx={{ display: 'flex' }}>
+                <Header />
+                {isDesktop ? <Sidebar.Desktop /> : <Sidebar.Mobile />}
+                <Container
+                    component="main"
+                    sx={{
+                        mt: 8,
+                        p: 3,
+                        flexGrow: 1,
+                        maxHeight: 'calc(100vh - 64px)',
+                        overflow: 'auto'
+                    }}
+                >
+                    <Outlet />
+                </Container>
+            </Box>
+        </Sidebar.Provider>
     );
 }
 

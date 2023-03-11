@@ -84,7 +84,7 @@ const eventWrapper: Components['eventWrapper'] = (props) => {
     return event.note ? (
         <Popover
             mode="hover"
-            trigger={children}
+            triggerComponent={children}
             anchorOrigin={{
                 vertical: 'center',
                 horizontal: 'center'

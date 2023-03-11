@@ -1,9 +1,12 @@
 import Desktop from './Sidebar.Desktop';
-import Mobile from './Sidebar.Mobile';
+import Mobile, { SidebarProvider, SidebarButton } from './Sidebar.Mobile';
 
 const Sidebar = {
     Desktop,
-    Mobile
+    Mobile,
+    Provider: SidebarProvider
 };
+
+export const ToggleSidebarButton = SidebarButton;
 
 export default Sidebar;

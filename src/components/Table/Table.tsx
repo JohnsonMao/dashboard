@@ -31,7 +31,7 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
         data,
         total,
         showPagination,
-        rowsPerPageOptions,
+        rowsPerPageOptions = [5, 10, 25, 100],
         ...restProps
     } = props;
 
@@ -84,12 +84,6 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
         </>
     );
 }
-
-Table.defaultProps = {
-    total: undefined,
-    showPagination: false,
-    rowsPerPageOptions: [5, 10, 25, 100]
-};
 
 const genericMemo: <T>(component: T) => T = memo;
 

@@ -1,21 +1,28 @@
 import { useId, memo } from 'react';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import {
+    useForm,
+    SubmitHandler,
+    FieldValues,
+    DefaultValues
+} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import Button from '@mui/material/Button';
 
 import Input from './widgets/TextWidget';
 
-type FormProps<T> = {
-    validationSchema: T;
+type FormProps<S> = {
     onSubmit: SubmitHandler<FieldValues>;
+    defaultValues?: DefaultValues<FieldValues>;
+    validationSchema?: S;
 };
 
-function Form<T>(props: FormProps<T>) {
-    const { validationSchema, onSubmit } = props;
+function Form<S>(props: FormProps<S>) {
+    const { validationSchema, defaultValues, onSubmit } = props;
     const id = useId();
     const { register, handleSubmit, formState } = useForm({
-        resolver: yupResolver(validationSchema)
+        resolver: yupResolver(validationSchema),
+        defaultValues
     });
 
     return (

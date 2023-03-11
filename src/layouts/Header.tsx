@@ -19,7 +19,8 @@ import PersonIcon from '@mui/icons-material/PersonRounded';
 
 /* Context */
 import { useTheme } from '@/contexts/ThemeContext';
-import { useSidebar } from '@/contexts/SidebarContext';
+
+import { ToggleSidebarButton } from './Sidebar';
 
 const rotateSX = (isRight: boolean) => ({
     transform: `rotate(${isRight ? 0 : -90}deg)`,
@@ -28,7 +29,6 @@ const rotateSX = (isRight: boolean) => ({
 
 function Header() {
     const { mode, toggleColorMode } = useTheme();
-    const { open, toggleSidebar } = useSidebar();
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -101,14 +101,7 @@ function Header() {
                         登出
                     </Button>
                 </Box>
-                <IconButton
-                    onClick={toggleSidebar}
-                    color="inherit"
-                    size="large"
-                    sx={{ display: { sm: 'inline-flex', md: 'none' } }}
-                >
-                    <DownIcon sx={rotateSX(open)} />
-                </IconButton>
+                <ToggleSidebarButton />
             </Toolbar>
         </AppBar>
     );
