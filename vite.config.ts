@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
             open: true,
             proxy: {
                 '/api': {
-                    target: 'http://slopeuat.freeway.gov.tw/web',
+                    target: 'https://jsonplaceholder.typicode.com',
                     changeOrigin: true,
                     secure: false,
                     rewrite: (p) => p.replace(/^\/api/, '')

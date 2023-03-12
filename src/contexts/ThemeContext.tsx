@@ -1,4 +1,6 @@
 import { useState, useMemo, createContext, useContext } from 'react';
+
+/* Mui */
 import {
     createTheme,
     ThemeProvider as MuiThemeProvider
@@ -6,13 +8,26 @@ import {
 import { blue, blueGrey } from '@mui/material/colors';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
+import IconButton from '@mui/material/IconButton';
+
+/* Icon */
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const ThemeContext = createContext({
     mode: 'light',
     toggleColorMode: () => {}
 });
 
-export const useTheme = () => useContext(ThemeContext);
+export function ToggleThemeButton() {
+    const { mode, toggleColorMode } = useContext(ThemeContext);
+
+    return (
+        <IconButton onClick={toggleColorMode} color="inherit" size="large">
+            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+    );
+}
 
 export function ThemeProvider(props: React.PropsWithChildren) {
     const { children } = props;

@@ -3,38 +3,52 @@ import {
     useForm,
     SubmitHandler,
     FieldValues,
-    DefaultValues
+    DefaultValues,
+    Path
 } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { object } from 'yup';
 
 import Button from '@mui/material/Button';
 
 import Input from './widgets/TextWidget';
 
-type FormProps<S> = {
+interface WidgetProps {
+    label?: string;
+    type?: string;
+}
+
+type FormProps = {
     onSubmit: SubmitHandler<FieldValues>;
+    schema: Record<Path<FieldValues>, WidgetProps>;
+    validationSchema?: ReturnType<typeof object>;
     defaultValues?: DefaultValues<FieldValues>;
-    validationSchema?: S;
 };
 
-function Form<S>(props: FormProps<S>) {
-    const { validationSchema, defaultValues, onSubmit } = props;
-    const id = useId();
-    const { register, handleSubmit, formState } = useForm({
+const objectKeys: <K extends string>(o: Record<K, unknown>) => K[] = Object.keys;
+
+function Form(props: FormProps) {
+    const { schema, validationSchema, defaultValues, onSubmit } = props;
+    const { handleSubmit, reset, control } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues
     });
+    const id = useId();
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <Input id={id} label="帳號" {...register('username')} />
-            <Input
-                id={id}
-                label="密碼"
-                type="password"
-                {...register('password')}
-            />
-            <Input id={id} label="數字" type="number" {...register('number')} />
+            {objectKeys(schema).map((key) => (
+                <Input
+                    id={id}
+                    key={key}
+                    name={key}
+                    control={control}
+                    {...schema[key]}
+                />
+            ))}
+            <Button type="button" onClick={() => reset()}>
+                重製
+            </Button>
             <Button type="submit">送出</Button>
         </form>
     );

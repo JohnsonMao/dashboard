@@ -12,13 +12,11 @@ import MenuItem from '@mui/material/MenuItem';
 
 /* Icon */
 import DownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import LogoutIcon from '@mui/icons-material/LogoutRounded';
 import PersonIcon from '@mui/icons-material/PersonRounded';
 
 /* Context */
-import { useTheme } from '@/contexts/ThemeContext';
+import { ToggleThemeButton } from '@/contexts/ThemeContext';
 
 import { ToggleSidebarButton } from './Sidebar';
 
@@ -28,8 +26,6 @@ const rotateSX = (isRight: boolean) => ({
 });
 
 function Header() {
-    const { mode, toggleColorMode } = useTheme();
-
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -44,17 +40,7 @@ function Header() {
         <AppBar position="fixed" sx={(t) => ({ zIndex: t.zIndex.drawer + 1 })}>
             <Toolbar>
                 <Typography sx={{ flex: 1 }}>Logo</Typography>
-                <IconButton
-                    onClick={toggleColorMode}
-                    color="inherit"
-                    size="large"
-                >
-                    {mode === 'dark' ? (
-                        <Brightness7Icon />
-                    ) : (
-                        <Brightness4Icon />
-                    )}
-                </IconButton>
+                <ToggleThemeButton />
                 <Box
                     sx={{
                         display: { xs: 'none', md: 'flex' },

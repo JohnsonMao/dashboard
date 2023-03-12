@@ -1,19 +1,33 @@
+import * as Yup from 'yup';
+
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
-import * as Yup from 'yup';
-
 import Form from '@/components/Form/Form';
 
-const initialValues = {
+const defaultValues = {
     username: 'test',
-    password: '1234',
+    password: '',
     number: 666
 };
+const schema = {
+    username: {
+        label: '帳號',
+        type: 'text'
+    },
+    password: {
+        label: '密碼',
+        type: 'password'
+    },
+    number: {
+        label: '數字',
+        type: 'number'
+    }
+};
 const onSubmit = (values) => console.log(values);
-const schema = Yup.object({
+const validationSchema = Yup.object({
     username: Yup.string()
         .max(20, '帳號長度不可超過 20 字')
         .required('請輸入帳號'),
@@ -37,7 +51,12 @@ function Login() {
             </Box>
             <Divider />
             <Box sx={{ px: 2, pb: 1 }}>
-                <Form onSubmit={onSubmit} validationSchema={schema} />
+                <Form
+                    onSubmit={onSubmit}
+                    schema={schema}
+                    validationSchema={validationSchema}
+                    defaultValues={defaultValues}
+                />
             </Box>
         </Paper>
     );

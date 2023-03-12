@@ -1,34 +1,44 @@
-import { memo, forwardRef } from 'react';
+import { memo } from 'react';
+import { useController, UseControllerProps } from 'react-hook-form';
+
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
-function TextWidget(
-    props: TextFieldProps,
-    ref: React.ForwardedRef<HTMLDivElement>
-) {
-    const { type, id, ...restProps } = props;
+type TextWidgetProps = UseControllerProps & TextFieldProps;
+
+function TextWidget(props: TextWidgetProps) {
+    const { type, id, control, name, ...restProps } = props;
+    const {
+        field: { ref, ...fieldProps }
+    } = useController({
+        control,
+        name
+    });
 
     if (type === 'number') {
         return (
             <TextField
-                ref={ref}
-                id={`${id}-${restProps.name}`}
+                inputRef={ref}
+                id={`${id}-${name}`}
                 size="small"
                 margin="normal"
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9.]*' }}
                 {...restProps}
+                {...fieldProps}
             />
         );
     }
 
     return (
         <TextField
-            ref={ref}
-            id={`${id}-${restProps.name}`}
+            inputRef={ref}
+            id={`${id}-${name}`}
             size="small"
             margin="normal"
+            type={type}
             {...restProps}
+            {...fieldProps}
         />
     );
 }
 
-export default memo(forwardRef(TextWidget));
+export default memo(TextWidget);
