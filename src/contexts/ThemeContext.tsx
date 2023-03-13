@@ -56,6 +56,9 @@ export function ThemeProvider(props: React.PropsWithChildren) {
                     }
                 },
                 typography: {
+                    button: {
+                        textTransform: 'none'
+                    },
                     fontFamily: [
                         '-apple-system',
                         'BlinkMacSystemFont',
@@ -63,10 +66,7 @@ export function ThemeProvider(props: React.PropsWithChildren) {
                         '"Noto Sans TC"',
                         'Roboto',
                         'sans-serif'
-                    ].join(','),
-                    button: {
-                        textTransform: 'none'
-                    }
+                    ].join(',')
                 },
                 components: {
                     MuiUseMediaQuery: {
