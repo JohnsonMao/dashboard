@@ -45,7 +45,12 @@
         "implicit-arrow-linebreak": "off",
         "comma-dangle": ["error", "never"],
         "indent": ["error", 4, { "SwitchCase": 1 }],
-        "object-curly-newline": ["off"]
+        "object-curly-newline": ["off"],
+        "operator-linebreak": [
+            "error",
+            "after",
+            { "overrides": { "?": "before", ":": "before" } }
+        ]
     },
     "settings": {
         "import/resolver": {

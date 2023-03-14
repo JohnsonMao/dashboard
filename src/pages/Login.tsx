@@ -7,7 +7,7 @@ import Divider from '@mui/material/Divider';
 
 import Form from '@/components/Form/Form';
 
-const schema = [
+const uiSchema = [
     {
         label: '帳號',
         type: 'text',
@@ -41,17 +41,11 @@ const validationSchema = Yup.object({
     number: Yup.number().min(0, '數字不可低於 0').max(1000, '數字不可超過 1000')
 });
 
-const onSubmit = (values) => console.log(values);
+const handleSubmit = (values: typeof defaultValues) => console.log(values);
 
 async function wait() {
-    return new Promise((res) => {
-        setTimeout(() => {
-            res({
-                username: 'test',
-                password: '',
-                number: 123
-            });
-        }, 1000);
+    return new Promise<typeof defaultValues>((res) => {
+        setTimeout(() => res(defaultValues), 1000);
     });
 }
 
@@ -70,8 +64,8 @@ function Login() {
             <Divider />
             <Box sx={{ px: 2, pb: 1 }}>
                 <Form
-                    onSubmit={onSubmit}
-                    schema={schema}
+                    onSuccess={handleSubmit}
+                    uiSchema={uiSchema}
                     validationSchema={validationSchema}
                     defaultValues={wait}
                 />
