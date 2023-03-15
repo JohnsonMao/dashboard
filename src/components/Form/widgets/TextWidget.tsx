@@ -7,37 +7,50 @@ type TextWidgetProps = {
     name: string;
 } & TextFieldProps;
 
-function TextWidget(props: TextWidgetProps) {
-    const { type, id, name, ...restProps } = props;
+function TextWidget({ type, id, name, ...textFieldProps }: TextWidgetProps) {
     const { control } = useFormContext();
 
-    // if (type === 'number') {
-    //     return (
-    //         <TextField
-    //             inputRef={ref}
-    //             id={`${id}-${name}`}
-    //             size="small"
-    //             margin="normal"
-    //             inputProps={{ inputMode: 'numeric', pattern: '[0-9.]*' }}
-    //             {...restProps}
-    //             {...fieldProps}
-    //         />
-    //     );
-    // }
+    if (type === 'number') {
+        return (
+            <Controller
+                name={name}
+                control={control}
+                defaultValue=""
+                render={({ field: { ref, ...fieldProps }, fieldState }) => (
+                    <TextField
+                        inputRef={ref}
+                        id={`${id}-${name}`}
+                        size="small"
+                        margin="normal"
+                        error={!!fieldState.error?.message}
+                        helperText={fieldState.error?.message}
+                        inputProps={{
+                            inputMode: 'numeric',
+                            pattern: '[0-9.]*'
+                        }}
+                        {...textFieldProps}
+                        {...fieldProps}
+                    />
+                )}
+            />
+        );
+    }
 
     return (
         <Controller
             name={name}
             control={control}
             defaultValue=""
-            render={({ field: { ref, ...fieldProps } }) => (
+            render={({ field: { ref, ...fieldProps }, fieldState }) => (
                 <TextField
                     inputRef={ref}
                     id={`${id}-${name}`}
                     size="small"
                     margin="normal"
                     type={type}
-                    {...restProps}
+                    error={!!fieldState.error?.message}
+                    helperText={fieldState.error?.message}
+                    {...textFieldProps}
                     {...fieldProps}
                 />
             )}

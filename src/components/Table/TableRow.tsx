@@ -31,14 +31,16 @@ const initBodyRowProps = {
     tabIndex: -1
 };
 
-function TableRow<T extends Record<keyof T, React.ReactNode>>(
-    props: TableRowProps<T>
-) {
-    const { headers, isHeaders, row, ...restProps } = props;
+function TableRow<T extends Record<keyof T, React.ReactNode>>({
+    headers,
+    isHeaders,
+    row,
+    ...tableRowProps
+}: TableRowProps<T>) {
     const rowProps = isHeaders ? {} : initBodyRowProps;
 
     return (
-        <MuiTableRow {...rowProps} {...restProps}>
+        <MuiTableRow {...rowProps} {...tableRowProps}>
             {headers.map((header) => {
                 const value = isHeaders ? header.label : row[header.key];
                 const render = isHeaders ? undefined : header.render;

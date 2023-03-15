@@ -26,7 +26,7 @@ type FormProps<T extends FieldValues = FieldValues> = {
     onSuccess?: SubmitHandler<T>;
     onError?: SubmitErrorHandler<T>;
     uiSchema?: WidgetProps[];
-    validationSchema?: Schema<DefaultValues<T>>;
+    validationSchema?: Schema<T>;
     defaultValues: DefaultValues<T>;
     formContext?: UseFormReturn<T>;
     formProps?: React.FormHTMLAttributes<HTMLFormElement>;
@@ -34,20 +34,16 @@ type FormProps<T extends FieldValues = FieldValues> = {
     children?: React.ReactNode;
 } & UseFormProps<T>;
 
-function FormProviderWithoutContext<T extends FieldValues>(
-    props: FormProps<T>
-) {
-    const {
-        onSuccess,
-        onError,
-        uiSchema,
-        validationSchema,
-        defaultValues,
-        formProps,
-        children,
-        ...useFormProps
-    } = props;
-
+function FormProviderWithoutContext<T extends FieldValues>({
+    onSuccess,
+    onError,
+    uiSchema,
+    validationSchema,
+    defaultValues,
+    formProps,
+    children,
+    ...useFormProps
+}: FormProps<T>) {
     const methods = useForm<T>({
         resolver: yupResolver(validationSchema),
         defaultValues,
@@ -63,26 +59,31 @@ function FormProviderWithoutContext<T extends FieldValues>(
                 noValidate
                 {...formProps}
             >
-                {children}
+                {children ??
+                    uiSchema?.map((widget) => (
+                        <TextWidget key={widget.name} {...widget} />
+                    ))}
+                <Button type="button" onClick={() => methods.reset()}>
+                    重製
+                </Button>
+                <Button type="submit">送出</Button>
             </form>
         </FormProvider>
     );
 }
 
-function Form<T extends FieldValues>(props: FormProps<T>) {
-    const {
-        onSuccess,
-        onError,
-        uiSchema,
-        validationSchema,
-        defaultValues,
-        formContext,
-        formProps,
-        handleSubmit,
-        children,
-        ...useFormProps
-    } = props;
-
+function Form<T extends FieldValues>({
+    onSuccess,
+    onError,
+    uiSchema,
+    validationSchema,
+    defaultValues,
+    formContext,
+    formProps,
+    handleSubmit,
+    children,
+    ...useFormProps
+}: FormProps<T>) {
     if (!formContext) {
         return (
             <FormProviderWithoutContext
@@ -110,25 +111,14 @@ function Form<T extends FieldValues>(props: FormProps<T>) {
                     (onSuccess && formContext.handleSubmit(onSuccess, onError))
                 }
             >
-                {children}
+                {children ??
+                    uiSchema?.map((widget) => (
+                        <TextWidget key={widget.name} {...widget} />
+                    ))}
             </form>
         </FormProvider>
     );
 }
-
-/*
-<FormProvider {...methods}>
-    <form onSubmit={methods.handleSubmit(onSuccess)}>
-        {schema.map((widget) => (
-            <TextWidget id={id} key={widget.name} {...widget} />
-        ))}
-        <Button type="button" onClick={() => methods.reset()}>
-            重製
-        </Button>
-        <Button type="submit">送出</Button>
-    </form>
-</FormProvider>
-*/
 
 const genericMemo: <T>(component: T) => T = memo;
 

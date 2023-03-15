@@ -8,13 +8,11 @@ export type TabsProps = {
     tabs: MuiTabProps[];
 } & MuiTabsProps;
 
-function Tabs(props: TabsProps) {
-    const { children, tabs, ...restProps } = props;
-
+function Tabs({ children, tabs, ...tabsProps }: TabsProps) {
     return (
         <Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <MuiTabs {...restProps}>
+                <MuiTabs {...tabsProps}>
                     {tabs.map((tab) => (
                         <Tab key={tab.value} {...tab} />
                     ))}

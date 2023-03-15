@@ -11,8 +11,7 @@ export type PopoverProps = {
     triggerComponent: React.ReactNode;
 } & Partial<MuiPopoverProps>;
 
-function Popover(props: PopoverProps) {
-    const { triggerComponent, mode, ...restProps } = props;
+function Popover({ triggerComponent, mode, ...popoverProps }: PopoverProps) {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -45,7 +44,7 @@ function Popover(props: PopoverProps) {
                 anchorEl={anchorEl}
                 onClose={handlePopoverClose}
                 disableRestoreFocus
-                {...restProps}
+                {...popoverProps}
             />
         </Box>
     );

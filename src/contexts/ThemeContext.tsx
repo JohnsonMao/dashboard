@@ -82,7 +82,7 @@ export function ThemeProvider(props: React.PropsWithChildren) {
     return (
         <ThemeContext.Provider value={colorMode}>
             <MuiThemeProvider theme={theme}>
-                <CssBaseline />
+                <CssBaseline enableColorScheme />
                 {children}
             </MuiThemeProvider>
         </ThemeContext.Provider>

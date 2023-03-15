@@ -51,6 +51,7 @@ function Announce() {
                     pk="code"
                     headers={headers}
                     data={data}
+                    tableContainerProps={{ sx: { maxHeight: 396 } }}
                     showPagination
                 />
             </Tabs>

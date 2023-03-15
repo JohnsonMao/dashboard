@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as yup from 'yup';
 
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -25,26 +25,37 @@ const uiSchema = [
     }
 ];
 
+const validationSchema = yup.object({
+    username: yup
+        .string()
+        .max(20, '帳號長度不可超過 20 字')
+        .required('請輸入帳號'),
+    password: yup
+        .string()
+        .max(20, '密碼長度不可超過 20 字')
+        .required('請輸入密碼'),
+    number: yup
+        .string()
+        .matches(/^[0-9]*\.?[0-9]*$/, '必須是數字')
+        .test(
+            'is-number-in-range',
+            '數字必須介於 0 和 100 之間',
+            (v) => v === '' || (Number(v) >= 0 && Number(v) <= 100)
+        )
+});
+
+type Values = yup.InferType<typeof validationSchema>;
+
 const defaultValues = {
     username: 'test',
     password: '',
-    number: 123
+    number: '66'
 };
 
-const validationSchema = Yup.object({
-    username: Yup.string()
-        .max(20, '帳號長度不可超過 20 字')
-        .required('請輸入帳號'),
-    password: Yup.string()
-        .max(20, '密碼長度不可超過 20 字')
-        .required('請輸入密碼'),
-    number: Yup.number().min(0, '數字不可低於 0').max(1000, '數字不可超過 1000')
-});
-
-const handleSubmit = (values: typeof defaultValues) => console.log(values);
+const handleSubmit = (values: Values) => console.log(values);
 
 async function wait() {
-    return new Promise<typeof defaultValues>((res) => {
+    return new Promise<Values>((res) => {
         setTimeout(() => res(defaultValues), 1000);
     });
 }

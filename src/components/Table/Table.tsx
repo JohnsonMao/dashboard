@@ -3,7 +3,7 @@ import { useState, memo } from 'react';
 /* Mui */
 import MuiTable, { TableProps as MuiTableProps } from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
+import TableContainer, { TableContainerProps } from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 
@@ -20,23 +20,21 @@ export type TableProps<
     total?: number;
     showPagination?: boolean;
     rowsPerPageOptions?: number[];
+    tableContainerProps?: TableContainerProps
 } & MuiTableProps;
 
-function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
-    props: TableProps<T, P>
-) {
-    const {
-        pk,
-        headers,
-        data,
-        total,
-        showPagination,
-        rowsPerPageOptions = [5, 10, 25, 100],
-        ...restProps
-    } = props;
-
+function Table<T extends Record<keyof T, React.ReactNode>, P extends string>({
+    pk,
+    headers,
+    data,
+    total,
+    showPagination,
+    rowsPerPageOptions = [10, 25, 100],
+    tableContainerProps,
+    ...tableProps
+}: TableProps<T, P>) {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const showData = showPagination
         ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         : data;
@@ -54,8 +52,8 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>(
 
     return (
         <>
-            <TableContainer>
-                <MuiTable stickyHeader {...restProps}>
+            <TableContainer {...tableContainerProps}>
+                <MuiTable stickyHeader {...tableProps}>
                     <TableHead>
                         <TableRow headers={headers} isHeaders />
                     </TableHead>
