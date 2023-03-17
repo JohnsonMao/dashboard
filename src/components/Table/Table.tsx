@@ -3,7 +3,9 @@ import { useState, memo } from 'react';
 /* Mui */
 import MuiTable, { TableProps as MuiTableProps } from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableContainer, { TableContainerProps } from '@mui/material/TableContainer';
+import TableContainer, {
+    TableContainerProps
+} from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 
@@ -16,11 +18,11 @@ export type TableProps<
     /** 每筆 data 唯一 key */
     pk: P;
     headers: Header<T>[];
-    data: (T & Record<P, string>)[];
+    data: (T & Record<P, string | number>)[];
     total?: number;
     showPagination?: boolean;
     rowsPerPageOptions?: number[];
-    tableContainerProps?: TableContainerProps
+    tableContainerProps?: TableContainerProps;
 } & MuiTableProps;
 
 function Table<T extends Record<keyof T, React.ReactNode>, P extends string>({

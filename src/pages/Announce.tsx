@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Paper from '@mui/material/Paper';
 
 import Tabs from '@/components/Tabs';
 import Table from '@/components/Table';
 
-import { headers, data } from '@/assets/mocks/table';
+import { headers, Data } from '@/assets/mocks/table';
 
 enum announceType {
     '其他',
@@ -35,20 +35,29 @@ const tabs = [
 
 function Announce() {
     const [value, setValue] = useState(announceType['全部']);
+    const [data, setData] = useState<Data[]>([]);
 
     const handleChange = (e: React.SyntheticEvent, v: announceType) => {
         setValue(v);
     };
 
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(
+                'https://jsonplaceholder.typicode.com/comments'
+            );
+            const result = await response.json();
+
+            setData(result);
+        }
+        fetchData();
+    }, []);
+
     return (
         <Paper>
-            <Tabs
-                value={value}
-                tabs={tabs}
-                onChange={handleChange}
-            >
+            <Tabs value={value} tabs={tabs} onChange={handleChange}>
                 <Table
-                    pk="code"
+                    pk="id"
                     headers={headers}
                     data={data}
                     tableContainerProps={{ sx: { maxHeight: 396 } }}
