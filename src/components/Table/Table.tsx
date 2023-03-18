@@ -18,7 +18,8 @@ export type TableProps<
     /** 每筆 data 唯一 key */
     pk: P;
     headers: Header<T>[];
-    data: (T & Record<P, string | number>)[];
+    isLoading?: boolean;
+    data?: (T & Record<P, string | number>)[];
     total?: number;
     showPagination?: boolean;
     rowsPerPageOptions?: number[];
@@ -28,6 +29,7 @@ export type TableProps<
 function Table<T extends Record<keyof T, React.ReactNode>, P extends string>({
     pk,
     headers,
+    isLoading,
     data,
     total,
     showPagination,
@@ -38,7 +40,7 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>({
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const showData = showPagination
-        ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        ? data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         : data;
 
     const handleChangePage = (e: unknown, newPage: number) => {
@@ -60,20 +62,26 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>({
                         <TableRow headers={headers} isHeaders />
                     </TableHead>
                     <TableBody>
-                        {showData.map((row) => (
-                            <TableRow
-                                key={row[pk]}
-                                headers={headers}
-                                row={row}
-                            />
-                        ))}
+                        {isLoading ? (
+                            <tr>
+                                <td>Loading</td>
+                            </tr>
+                        ) : (
+                            showData?.map((row) => (
+                                <TableRow
+                                    key={row[pk]}
+                                    headers={headers}
+                                    row={row}
+                                />
+                            ))
+                        )}
                     </TableBody>
                 </MuiTable>
             </TableContainer>
             {showPagination && (
                 <TablePagination
                     component="div"
-                    count={total != null ? total : data.length}
+                    count={total != null ? total : data?.length || -1}
                     page={page}
                     rowsPerPage={rowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions}
