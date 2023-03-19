@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 import Tabs from '@/components/Tabs';
 import Table from '@/components/Table';
 
-import { headers, Data, fetchData } from '@/assets/mocks/table';
+import { headers, fetchData } from '@/assets/mocks/table';
 
 enum announceType {
     '其他',
@@ -34,9 +34,14 @@ const tabs = [
     }
 ];
 
+const tableContainerProps = { sx: { maxHeight: 396 } };
+
 function Announce() {
     const [value, setValue] = useState(announceType['全部']);
-    const { isLoading, data } = useQuery('comments', fetchData);
+    const { isLoading, data } = useQuery({
+        queryKey: ['comments'],
+        queryFn: fetchData
+    });
 
     const handleChange = (e: React.SyntheticEvent, v: announceType) => {
         setValue(v);
@@ -50,7 +55,7 @@ function Announce() {
                     headers={headers}
                     isLoading={isLoading}
                     data={data}
-                    tableContainerProps={{ sx: { maxHeight: 396 } }}
+                    tableContainerProps={tableContainerProps}
                     showPagination
                 />
             </Tabs>
