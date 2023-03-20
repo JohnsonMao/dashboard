@@ -8,7 +8,7 @@ import TableContainer, {
 } from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
-import Skeleton from '@mui/material/Skeleton';
+import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 import TableRow, { Header } from './TableRow';
@@ -70,15 +70,9 @@ function Table<T extends Record<keyof T, React.ReactNode>, P extends string>({
                                     component="td"
                                     colSpan={headers.length}
                                     textAlign="center"
-                                    p={0}
+                                    p={3}
                                 >
-                                    <Skeleton
-                                        variant="rectangular"
-                                        width="100%"
-                                        sx={{ p: 1 }}
-                                    >
-                                        Loading...
-                                    </Skeleton>
+                                    <CircularProgress />
                                 </Box>
                             </Box>
                         ) : (

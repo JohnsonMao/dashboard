@@ -42,11 +42,11 @@ function TableRow<T extends Record<keyof T, React.ReactNode>>({
     return (
         <MuiTableRow {...rowProps} {...tableRowProps}>
             {headers.map((header) => {
-                const value = isHeaders ? header.label : row[header.key];
-                const render = isHeaders ? undefined : header.render;
+                const { label, key, render, ...tableCellProps } = header;
+                const value = isHeaders ? label : row[header.key];
 
                 return (
-                    <TableCell key={header.key}>
+                    <TableCell key={key} {...tableCellProps}>
                         {typeof render === 'function'
                             ? render(value, row)
                             : value}

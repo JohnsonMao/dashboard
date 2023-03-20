@@ -34,7 +34,8 @@ const tabs = [
     }
 ];
 
-const tableContainerProps = { sx: { maxHeight: 396 } };
+const tableContainerProps = { sx: { height: 396 } };
+const tableStyle = { tableLayout: 'fixed', overflowWrap: 'break-word' };
 
 function Announce() {
     const [value, setValue] = useState(announceType['全部']);
@@ -54,9 +55,10 @@ function Announce() {
                     pk="id"
                     headers={headers}
                     isLoading={isLoading}
-                    data={data}
                     tableContainerProps={tableContainerProps}
+                    data={data}
                     showPagination
+                    sx={tableStyle}
                 />
             </Tabs>
         </Paper>
