@@ -10,8 +10,8 @@ import {
     SubmitHandler,
     SubmitErrorHandler
 } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Schema } from 'yup';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Schema } from 'zod';
 
 import Button from '@mui/material/Button';
 
@@ -45,7 +45,7 @@ function FormProviderWithoutContext<T extends FieldValues>({
     ...useFormProps
 }: FormProps<T>) {
     const methods = useForm<T>({
-        resolver: yupResolver(validationSchema),
+        resolver: validationSchema && zodResolver(validationSchema),
         defaultValues,
         ...useFormProps
     });

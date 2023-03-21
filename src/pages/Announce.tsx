@@ -56,9 +56,9 @@ function Announce() {
                     headers={headers}
                     isLoading={isLoading}
                     tableContainerProps={tableContainerProps}
+                    sx={tableStyle}
                     data={data}
                     showPagination
-                    sx={tableStyle}
                 />
             </Tabs>
         </Paper>
