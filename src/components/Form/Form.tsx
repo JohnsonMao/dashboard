@@ -22,6 +22,7 @@ interface WidgetProps {
     label?: string;
     type?: string;
 }
+
 type FormProps<T extends FieldValues = FieldValues> = {
     onSuccess?: SubmitHandler<T>;
     onError?: SubmitErrorHandler<T>;

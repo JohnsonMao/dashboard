@@ -16,7 +16,7 @@ function TextWidget({ type, id, name, ...textFieldProps }: TextWidgetProps) {
                 name={name}
                 control={control}
                 defaultValue=""
-                render={({ field: { ref, ...fieldProps }, fieldState }) => (
+                render={({ field: { ref, onChange, ...fieldProps }, fieldState }) => (
                     <TextField
                         inputRef={ref}
                         id={`${id}-${name}`}
@@ -28,6 +28,7 @@ function TextWidget({ type, id, name, ...textFieldProps }: TextWidgetProps) {
                             inputMode: 'numeric',
                             pattern: '[0-9.]*'
                         }}
+                        onChange={(e) => onChange(parseFloat(e.target.value))}
                         {...textFieldProps}
                         {...fieldProps}
                     />

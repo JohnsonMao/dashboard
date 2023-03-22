@@ -21,21 +21,23 @@ const uiSchema = [
     {
         label: '數字',
         type: 'number',
-        name: 'number'
+        name: 'age'
     }
 ];
 
 const validationSchema = z.object({
     username: z
-        .string({ required_error: '請輸入帳號' })
-        .max(20, '帳號長度不可超過 20 字'),
+        .string()
+        .max(20, '帳號長度不可超過 20 字')
+        .nonempty('請輸入帳號'),
     password: z
-        .string({ required_error: '請輸入密碼' })
-        .max(20, '密碼長度不可超過 20 字'),
-    number: z
+        .string()
+        .max(20, '密碼長度不可超過 20 字')
+        .nonempty('請輸入密碼'),
+    age: z
         .number({ invalid_type_error: '必須是數字' })
-        .gt(0, '必須大於 0')
-        .lt(100, '必須小於 100')
+        .positive('必須大於 0')
+        .max(100, '必須小於 100')
 });
 
 type Values = z.infer<typeof validationSchema>;
@@ -43,7 +45,7 @@ type Values = z.infer<typeof validationSchema>;
 const defaultValues = {
     username: 'test',
     password: '',
-    number: 66
+    age: 18
 };
 
 const handleSubmit = (values: Values) => console.log(values);
