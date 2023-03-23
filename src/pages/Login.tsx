@@ -28,12 +28,14 @@ const uiSchema = [
 const validationSchema = z.object({
     username: z
         .string()
-        .max(20, '帳號長度不可超過 20 字')
-        .nonempty('請輸入帳號'),
+        .min(1, '請輸入帳號')
+        .min(8, '密碼長度最少需要 8 個字')
+        .max(20, '帳號長度不可超過 20 個字'),
     password: z
         .string()
-        .max(20, '密碼長度不可超過 20 字')
-        .nonempty('請輸入密碼'),
+        .min(1, '請輸入密碼')
+        .min(8, '密碼長度最少需要 8 個字')
+        .max(20, '密碼長度不可超過 20 個字'),
     age: z
         .number({ invalid_type_error: '必須是數字' })
         .positive('必須大於 0')

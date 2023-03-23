@@ -28,7 +28,11 @@ function TextWidget({ type, id, name, ...textFieldProps }: TextWidgetProps) {
                             inputMode: 'numeric',
                             pattern: '[0-9.]*'
                         }}
-                        onChange={(e) => onChange(parseFloat(e.target.value))}
+                        onChange={({ target: { value } }) => {
+                            if (!Number.isNaN(parseFloat(value))) {
+                                onChange(parseFloat(value));
+                            }
+                        }}
                         {...textFieldProps}
                         {...fieldProps}
                     />
